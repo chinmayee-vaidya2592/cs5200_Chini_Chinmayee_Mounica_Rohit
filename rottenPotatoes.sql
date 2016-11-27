@@ -103,7 +103,9 @@ create table RegisteredUser(
     unique(username),
     password varchar(200) not null,
     email varchar(200) not null,
-    unique(email),	
+    unique(email),
+    firstName varchar(200) not null,
+    lastName varchar(200) not null,	
     foreign key(id) references `User`(id) 
           on update cascade
           on delete cascade,
