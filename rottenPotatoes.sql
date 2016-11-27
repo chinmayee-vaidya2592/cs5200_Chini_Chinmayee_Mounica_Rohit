@@ -1,15 +1,8 @@
 # User
 create table `User` (
-	id int primary key auto_increment
-);
-
-# Guest User
-create table GuestUser(
 	id int primary key auto_increment,
-    hasAccess boolean not null,
-    foreign key(id) references `User`(id) 
-          on update cascade
-          on delete cascade);
+	hasAccess boolean not null
+);
 
 # Event
 create table `Event` (
@@ -109,7 +102,8 @@ create table RegisteredUser(
     username varchar(200) not null,
     unique(username),
     password varchar(200) not null,
-    unique(password),
+    email varchar(200) not null,
+    unique(email),	
     foreign key(id) references `User`(id) 
           on update cascade
           on delete cascade,
