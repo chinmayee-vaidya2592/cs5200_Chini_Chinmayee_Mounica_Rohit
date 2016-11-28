@@ -109,7 +109,6 @@ create table RegisteredUser(
     foreign key(id) references `User`(id) 
           on update cascade
           on delete cascade,
-    genreType enum ('Horror', 'Thriller', 'History', 'Drama', 'Comedy'),
     hasAccess boolean not null,
     regUserCommentsOn int not null,
 	regUsercommentedOnBy int not null,
@@ -117,3 +116,13 @@ create table RegisteredUser(
 				on update no action
 				on delete no action
 );
+
+#UserGenre
+create table UserGenre(
+	id int primary key auto_increment,
+	foreign key(id) references `RegisteredUser`(id) 
+          on update cascade
+          on delete cascade,
+	genreType enum ('Horror', 'Thriller', 'History', 'Drama', 'Comedy'),
+);
+	
