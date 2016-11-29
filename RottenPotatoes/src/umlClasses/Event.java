@@ -1,5 +1,6 @@
 package umlClasses;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -12,6 +13,7 @@ public class Event {
 	private ArrayList<Date> showTimes = new ArrayList<Date>();
 	private EventType type;
 	private int availableTickets;
+	private Connection connection;
 	
 	public String getName() {
 		return name;
@@ -67,6 +69,14 @@ public class Event {
 
 	public void setAvailableTickets(int availableTickets) {
 		this.availableTickets = availableTickets;
+	}
+
+	public Connection getConnection() {
+		return connection;
+	}
+
+	public void setConnection(Connection connection) {
+		this.connection = connection;
 	}
 
 }
