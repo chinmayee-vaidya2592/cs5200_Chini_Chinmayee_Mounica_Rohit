@@ -15,6 +15,10 @@ public class Event {
 	private int availableTickets;
 	private Connection connection;
 	
+	public Event(Connection connection, int user) {
+		
+	}
+	
 	public String getName() {
 		return name;
 	}

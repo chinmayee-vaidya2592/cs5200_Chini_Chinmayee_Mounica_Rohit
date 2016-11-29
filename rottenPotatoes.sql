@@ -123,6 +123,6 @@ create table UserGenre(
 	foreign key(id) references `RegisteredUser`(id) 
           on update cascade
           on delete cascade,
-	genreType enum ('Horror', 'Thriller', 'History', 'Drama', 'Comedy'),
+	genreType enum ('Horror', 'Thriller', 'History', 'Drama', 'Comedy')
 );
 	
