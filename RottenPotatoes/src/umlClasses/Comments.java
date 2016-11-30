@@ -11,10 +11,16 @@ public class Comments {
 	
 	private Connection connection;
 	
-	public Comments(String cmntxt, Date dte) {
-		commentText = cmntxt;
-		date = dte;
-	}
+	public Comments(){
+        
+    }
+	
+	public Comments getComment(String cmntxt, Date dte) {
+        Comments c = new Comments();
+	    this.commentText = cmntxt;
+		this.date = dte;
+        return c;
+}
 	
 	public void setCommentText(String commentText){
 		this.commentText = commentText;
