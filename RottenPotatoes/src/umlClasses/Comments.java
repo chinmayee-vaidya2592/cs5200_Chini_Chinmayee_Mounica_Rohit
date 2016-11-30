@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class Comments {
 	
+	private int id;
 	private String commentText;
 	private Date date;
 	
@@ -37,5 +38,13 @@ public class Comments {
 
 	public void setConnection(Connection connection) {
 		this.connection = connection;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

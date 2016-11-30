@@ -79,7 +79,14 @@ create table `UserComment` (
 
     
 # Review
+
 create table `Review` (
+	`id` int primary key auto_increment,
+	`description` varchar(200),
+    `rating` int not null
+);
+
+create table `UserReview` (
 	`reviews` int not null,
     foreign key(`reviews`)
 		references `Event`(`id`)
@@ -90,9 +97,12 @@ create table `Review` (
 		references `User`(`id`)
         on update cascade
         on delete cascade,
-	primary key(`reviews`, `reviewedBy`),
-    `description` varchar(200),
-    `rating` int not null);
+	`reviewId` int not null,
+	foreign key(`reviewId`) references `Review`(`id`) on update cascade on delete cascade,
+	primary key(`reviewId`, `reviews`, `reviewedBy`)
+);
+
+
 
 # Registered User    
 create table `RegisteredUser`(
