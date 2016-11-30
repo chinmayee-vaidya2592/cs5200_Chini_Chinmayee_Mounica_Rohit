@@ -144,4 +144,12 @@ foreign key(id)
     on update cascade 
     on delete cascade
 );
+
+create table `UserTicket` (
+	`user` int not null, 
+	`ticket` int not null,
+	foreign key(`user`) references `User`(`id`) on update cascade on delete cascade,
+	foreign key(`ticket`) references `Ticket`(`id`) on update cascade on delete cascade,
+	primary key (`user`, `ticket`)
+);
 	
