@@ -1,3 +1,5 @@
+
+
 # User
 create table `User` (
 	id int primary key auto_increment,
@@ -33,19 +35,7 @@ create table `Ticket` (
 #Artists
 
 
-create table Artists(
-id int primary key,
-username varchar(200) not null,
-email varchar(200) not null,
-password varchar(200) not null,
-type enum('Director', 'Actor','Musician'),
-unique(username),
-unique(email),
-foreign key(id)
-	references RegisteredUser(id)
-    on update cascade 
-    on delete cascade
-);
+
 
 
 #Admin
@@ -63,7 +53,15 @@ foreign key(id)
 );
 
 # Comment
-create table `comment` (
+
+create table `Comment` (
+	`id` int primary key,
+	`commentText` varchar(500) not null,
+	`commentTime` date not null
+);
+
+
+create table `UserComment` (
 	`commentOn` int not null,
     foreign key(`commentOn`)
 		references `Event`(`id`)
@@ -71,12 +69,12 @@ create table `comment` (
         on delete cascade,
 	`commentedOnBy` int not null,
     foreign key(`commentedOnBy`)
-		references `user`(`id`)
+		references `User`(`id`)
         on update cascade
         on delete cascade,
-	primary key(`commentOn`, `commentedOnBy`),
-	`commentText` varchar(500) not null,
-	`commentTime` date not null
+	`comment` int not null,
+	foreign key(`comment`) references `Comment`(id) on update cascade on delete cascade,
+	primary key(`comment`, `commentOn`, `commentedOnBy`)
 );
 
     
@@ -97,24 +95,19 @@ create table `Review` (
     `rating` int not null);
 
 # Registered User    
-create table RegisteredUser(
-    id int primary key auto_increment,
-    username varchar(200) not null,
+create table `RegisteredUser`(
+    `id` int primary key auto_increment,
+    `username` varchar(200) not null,
     unique(username),
-    password varchar(200) not null,
-    email varchar(200) not null,
+    `password` varchar(200) not null,
+    `email` varchar(200) not null,
     unique(email),
-    firstName varchar(200) not null,
-    lastName varchar(200) not null,	
+    `firstName` varchar(200) not null,
+    `lastName` varchar(200) not null,	
     foreign key(id) references `User`(id) 
-          on update cascade
-          on delete cascade,
-    hasAccess boolean not null,
-    regUserCommentsOn int not null,
-	regUsercommentedOnBy int not null,
-    foreign key(regUserCommentsOn, regUsercommentedOnBy) references `comment`(`commentOn`, `commentedOnBy`) 
-				on update no action
-				on delete no action
+          on update no action
+          on delete no action,
+    `hasAccess` boolean not null
 );
 
 #UserGenre
@@ -124,5 +117,21 @@ create table UserGenre(
           on update cascade
           on delete cascade,
 	genreType enum ('Horror', 'Thriller', 'History', 'Drama', 'Comedy')
+);
+
+# Artist
+
+create table Artists(
+id int primary key,
+username varchar(200) not null,
+email varchar(200) not null,
+password varchar(200) not null,
+type enum('Director', 'Actor','Musician'),
+unique(username),
+unique(email),
+foreign key(id)
+	references RegisteredUser(id)
+    on update cascade 
+    on delete cascade
 );
 	
