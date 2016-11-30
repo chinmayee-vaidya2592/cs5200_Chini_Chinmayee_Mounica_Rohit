@@ -2,6 +2,7 @@ package umlClasses;
 
 import utils.*;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 
 public abstract class User {
@@ -43,11 +44,36 @@ public abstract class User {
 		}	
 	}
 	
-	public void updateUserComment() {
-		
+	public void insertUserComment(Connection conn, Comments comments, int eventId) throws Exception {
+		int newCommentId = comments.getNewCommentId();
+		PreparedStatement insertCommentText = conn.prepareStatement("insert into Comment "
+				+ "values (?, ?, ?)");
+		Utils.printDatabaseWarning(insertCommentText.getWarnings());
+		PreparedStatement insertComment = conn.prepareStatement("insert into UserComment"
+				+ " values (?, ?, ?)");
+		Utils.printDatabaseWarning(insertComment.getWarnings());
+		try {
+			insertCommentText.setInt(1, newCommentId);
+			insertCommentText.setString(2, comments.getCommentText());
+			insertCommentText.setDate(3, (Date) comments.getDate());
+			int insertCount1 = insertCommentText.executeUpdate();
+			if (insertCount1 != 1) {
+				throw new Exception("Error inserting records!");
+			}
+			insertComment.setInt(1, eventId);
+			insertComment.setInt(2, this.getId());
+			insertComment.setInt(3, newCommentId);
+			int insertCount2 = insertComment.executeUpdate();
+			if (insertCount2 != 1) {
+				throw new Exception("Error inserting records!");
+			}
+		} finally {
+			insertCommentText.close();
+			insertComment.close();
+		}
 	}
 	
-	public void createUserComment() {
+	public void updateUserComment() {
 		
 	}
 	
@@ -79,11 +105,36 @@ public abstract class User {
 		}
 	}
 	
-	public void updateUserReview() {
-		
+	public void insertUserReview(Connection conn, Reviews reviews, int eventId) throws Exception {
+		int newReviewId = reviews.getNewReviewId();
+		PreparedStatement insertReviewText = conn.prepareStatement("insert into Review "
+				+ "values (?, ?, ?)");
+		Utils.printDatabaseWarning(insertReviewText.getWarnings());
+		PreparedStatement insertReview = conn.prepareStatement("insert into UserReview"
+				+ " values (?, ?, ?)");
+		Utils.printDatabaseWarning(insertReview.getWarnings());
+		try {
+			insertReviewText.setInt(1, newReviewId);
+			insertReviewText.setString(2, reviews.getDescription());
+			insertReviewText.setInt(3, reviews.getRating());
+			int insertCount1 = insertReviewText.executeUpdate();
+			if (insertCount1 != 1) {
+				throw new Exception("Error inserting records!");
+			}
+			insertReview.setInt(1, eventId);
+			insertReview.setInt(2, this.getId());
+			insertReview.setInt(3, newReviewId);
+			int insertCount2 = insertReview.executeUpdate();
+			if (insertCount2 != 1) {
+				throw new Exception("Error inserting records!");
+			}
+		} finally {
+			insertReviewText.close();
+			insertReview.close();
+		}
 	}
 	
-	public void createUserReview() {
+	public void updateUserReview() {
 		
 	}
 	

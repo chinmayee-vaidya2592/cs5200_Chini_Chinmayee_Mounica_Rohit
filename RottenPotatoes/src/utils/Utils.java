@@ -28,4 +28,10 @@ public final class Utils {
 		    System.err.println("Delete Warning: " + warning);
 		}
 	}
+	
+	public static void printInsertWarning(SQLWarning warning) {
+		while (warning != null) {
+		    System.err.println("Insert Warning: " + warning);
+		}
+	}
 }

@@ -1,7 +1,12 @@
 package umlClasses;
 
 import java.util.Date;
+
+import utils.Utils;
+
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class Reviews {
 	
@@ -56,6 +61,24 @@ public class Reviews {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public int getNewReviewId() throws Exception{
+		int newId = 0;
+		PreparedStatement getMaxId = getConnection().prepareStatement("select max(id)+1 from Review");
+		Utils.printDatabaseWarning(getMaxId.getWarnings());
+		try {
+			ResultSet rs = getMaxId.executeQuery();
+			Utils.printQueryWarning(getMaxId.getWarnings());
+			if (rs.next()) {
+				newId = rs.getInt(1);
+			} else {
+				throw new Exception("Invalid id!");
+			}
+		} finally {
+			getMaxId.close();
+		}
+		return newId;
 	}
 
 }
