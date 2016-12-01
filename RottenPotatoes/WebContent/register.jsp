@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -36,28 +38,28 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="./index.html" style="color: #385185;">RottenPotatoes</a>
+          <a class="navbar-brand" href="./index.jsp" style="color: #385185;">RottenPotatoes</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse pull-right">
           <ul class="nav navbar-nav">
           <!-- LINK TO REMOVE -->
 
-            <li><a href="./eventPage.html" style="color: #385185;">Event Page (Development Link)</a></li>
+            <li><a href="./eventPage.jsp" style="color: #385185;">Event Page (Development Link)</a></li>
             
           <!-- LINK TO REMOVE -->
-            <li><a href="./index.html" style="color: #385185;">Home</a></li>
-            <li class="active" style="color: #385185;"><a href="./profile.html">Profile</a></li>
-            <li><a href="./login.html" style="color: #385185;">Sign In</a></li>
-            <li><a href="./register.html" style="color: #385185;">Register</a></li>
+            <li><a href="./index.jsp" style="color: #385185;">Home</a></li>
+            <li><a href="./profile.jsp" style="color: #385185;">Profile</a></li>
+            <li><a href="./login.jsp" style="color: #385185;">Sign In</a></li>
+            <li class="active" href="./register.jsp" style="color: #385185;"><a>Register</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
-        <div id="wrap">
+    <div id="wrap">
     <div class="container center_div" id="top">
       <div class="panel panel-default">
-          <div class="panel-heading">Profile</div>
+          <div class="panel-heading">Register</div>
             <div class="panel-body">
               <form class="form-horizontal">
                 <fieldset>
@@ -93,7 +95,7 @@
                   </div>
                   <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                      <button type="submit" class="btn btn-primary">Update</button>
+                      <button type="submit" class="btn btn-primary">Sign In</button>
                     </div>
                   </div>
                 </fieldset>
