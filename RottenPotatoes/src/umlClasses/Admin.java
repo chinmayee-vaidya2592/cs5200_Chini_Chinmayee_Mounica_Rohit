@@ -7,7 +7,11 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 
 
-
+/**
+ * 
+ * @author Chinmayee
+ *
+ */
 public class Admin extends RegisteredUser{
 
 	/**
@@ -174,4 +178,51 @@ public class Admin extends RegisteredUser{
 	}
 	
 	//Reviews
+	
+	public void deleteOneReview(int rev_id, Connection conn) throws Exception{
+		PreparedStatement deleteReview;
+		try {
+			deleteReview = conn.prepareStatement("delete from review where id = ?");
+			SQLWarning warnings;
+			warnings = deleteReview.getWarnings();
+			while(warnings!=null){
+				System.err.println("Database Warnings! "+warnings);
+			}
+			deleteReview.setInt(1, rev_id);
+			int deleteCount = deleteReview.executeUpdate();
+			SQLWarning delWar;
+			delWar = deleteReview.getWarnings();
+			while(delWar!=null){
+				System.err.println("Database Warnings! "+delWar);
+			}
+			
+			if(deleteCount!=1){
+				throw new Exception("No review with that id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteAllReviews(int user_id, Connection conn) throws Exception{
+		PreparedStatement deleteAllReviewsForUser;
+		try {
+			deleteAllReviewsForUser = conn.prepareStatement("select comment from UserReview where reviewedBy = ?");
+			SQLWarning warnings;
+			warnings =deleteAllReviewsForUser.getWarnings();
+			while(warnings!=null){
+				System.err.println("Database Warnings! "+warnings);	
+		} 
+			deleteAllReviewsForUser.setInt(1, user_id);
+			ResultSet rs = deleteAllReviewsForUser.executeQuery();
+			
+			while(rs.next()){
+				int comm_id = rs.getInt(1);
+				deleteOneReview(comm_id,conn);
+				
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

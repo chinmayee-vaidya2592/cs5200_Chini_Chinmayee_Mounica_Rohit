@@ -30,7 +30,15 @@ public class RegisteredUser {
     private String lastName;
     private Connection conn;
     
-    public int getid(){
+    public Connection getConn() {
+		return conn;
+	}
+
+	public void setConn(Connection conn) {
+		this.conn = conn;
+	}
+
+	public int getid(){
         return id;
     }
     
