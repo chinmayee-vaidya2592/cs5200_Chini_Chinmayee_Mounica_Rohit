@@ -100,7 +100,11 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <div class="panel panel-primary" >
                 <div class="panel-heading" style="background-color: #DA4339;">
-                  <h3 class="panel-title">Harry Potter and The Cursed Child</h3>
+                  <div class="row">
+                    <h3 class="panel-title col-lg-10 col-md-10 col-sm-12 col-xs-12">Harry Potter and The Cursed Child</h3>
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                  </div>
                 </div>
                 <div class="panel-body">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et leo mi. Nunc ut ipsum eget urna scelerisque
