@@ -38,19 +38,19 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="./index.jsp" style="color: #385185;">RottenPotatoes</a>
+          <a class="navbar-brand" href="./index.html" style="color: #385185;">RottenPotatoes</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse pull-right">
           <ul class="nav navbar-nav">
           <!-- LINK TO REMOVE -->
 
-            <li><a href="./eventPage.jsp" style="color: #385185;">Event Page (Development Link)</a></li>
+            <li><a href="./eventPage.html" style="color: #385185;">Event Page (Development Link)</a></li>
             
           <!-- LINK TO REMOVE -->
-            <li class="active" style="color: #385185;"><a href="./index.jsp">Home</a></li>
-            <li><a href="./profile.jsp" style="color: #385185;">Profile</a></li>
-            <li><a href="./login.jsp" style="color: #385185;">Sign In</a></li>
-            <li><a href="./register.jsp" style="color: #385185;">Register</a></li>
+            <li class="active" style="color: #385185;"><a href="./index.html">Home</a></li>
+            <li><a href="./profile.html" style="color: #385185;">Profile</a></li>
+            <li><a href="./login.html" style="color: #385185;">Sign In</a></li>
+            <li><a href="./register.html" style="color: #385185;">Register</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -68,6 +68,11 @@
         <div class="panel panel-default col-lg-5 col-md-5">
           <div class="panel-heading">Book Tickets</div>
             <div class="panel-body">
+              <div class="col-lg-12">
+                <h6 class="rating-badge col-lg-2 col-md-2 col-sm-4 col-xs-6">26 Jan</h6>
+              </div>
+            <h4><b>Event Time: </b>6:30 pm</h4>
+            <h4><b>Cost: </b>$65</h4>
               <form class="form-horizontal">
                 <fieldset>
                   <div class="form-group">
@@ -230,3 +235,4 @@
     <script src="js/bootstrap.min.js"></script>
   </body>
 </html>
+
