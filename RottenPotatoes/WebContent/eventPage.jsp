@@ -68,10 +68,10 @@
             <li><a href="./eventPage.html" style="color: #385185;">Event Page (Development Link)</a></li>
             
           <!-- LINK TO REMOVE -->
-            <li class="active" style="color: #385185;"><a href="./index.html">Home</a></li>
-            <li><a href="./profile.html" style="color: #385185;">Profile</a></li>
-            <li><a href="./login.html" style="color: #385185;">Sign In</a></li>
-            <li><a href="./register.html" style="color: #385185;">Register</a></li>
+            <li class="active" style="color: #385185;"><a href="./index.jsp">Home</a></li>
+            <li><a href="./profile.jsp" style="color: #385185;">Profile</a></li>
+            <li><a href="./login.jsp" style="color: #385185;">Sign In</a></li>
+            <li><a href="./register.jsp" style="color: #385185;">Register</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
