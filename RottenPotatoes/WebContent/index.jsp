@@ -58,11 +58,6 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse pull-right">
           <ul class="nav navbar-nav">
-          <!-- LINK TO REMOVE -->
-
-            <li><a href="./eventPage.jsp" style="color: #385185;">Event Page (Development Link)</a></li>
-            
-          <!-- LINK TO REMOVE -->
             <li class="active" style="color: #385185;"><a href="./index.jsp">Home</a></li>
             <li><a href="./login.jsp" style="color: #385185;">Sign In</a></li>
             <li><a href="./register.jsp" style="color: #385185;">Register</a></li>
