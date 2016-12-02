@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -29,6 +31,25 @@
 
   <body style="background-color: #39A0CD;">
 
+                    <!-- Modal -->
+                      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                            </div>
+                            <div class="modal-body">
+                              ...
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Modal end -->
+
     <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: #EBEBEB;">
       <div class="container">
         <div class="navbar-header">
@@ -49,7 +70,6 @@
           <!-- LINK TO REMOVE -->
             <li class="active" style="color: #385185;"><a href="./index.html">Home</a></li>
             <li><a href="./profile.html" style="color: #385185;">Profile</a></li>
-            <li><a href="./addEvent.html" style="color: #385185;">Add Event</a></li>
             <li><a href="./login.html" style="color: #385185;">Sign In</a></li>
             <li><a href="./register.html" style="color: #385185;">Register</a></li>
           </ul>
@@ -96,8 +116,7 @@
                   </div>
                   <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                      <button type="reset" class="btn btn-default">Cancel</button>
-                      <button type="submit" class="btn btn-primary">Submit</button>
+                      <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Buy Tickets</button>
                     </div>
                   </div>
                 </fieldset>
@@ -112,6 +131,27 @@
       <hr>
         <div class="row">
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+              <div class="panel panel-primary">
+                <div class="panel-heading">Add a comment</div>
+                <div class="panel-body">
+                  <form class="form-horizontal">
+                    <fieldset>
+                      <div class="form-group">
+                        <label for="addComment" class="col-lg-2 control-label" style="color: #000;">Comment</label>
+                        <div class="col-lg-10">
+                          <textarea name="addComment" class="form-control" rows="3" id="addComment" placeholder="Write your comment"></textarea>
+                        </div>
+                      </div>
+                      <div class="form-group" style="margin: 5%;">
+                        <div class="col-lg-10 col-lg-offset-2">
+                          <button type="submit" class="btn btn-primary">Comment</button>
+                        </div>
+                      </div>
+                    </fieldset>
+                  </form>
+                </div>
+                </div>
+              
               <div class="panel panel-primary" >
                 <div class="panel-heading" style="background-color: #DA4339;">
                   <h3 class="panel-title">User2453</h3>
@@ -178,6 +218,45 @@
           </div> <!-- Movie List column closing -->
 
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">Add a Review</div>
+                  <div class="panel-body">
+                    <form class="form-horizontal">
+                      <fieldset>
+                        <div class="form-group">
+                          <label for="select" class="col-lg-2 control-label" style="color: #000;">Rating</label>
+                          <div class="col-lg-10">
+                            <select class="form-control" id="select">
+                              <option>1</option>
+                              <option>1.5</option>
+                              <option>2</option>
+                              <option>2.5</option>
+                              <option>3</option>
+                              <option>3.5</option>
+                              <option>4</option>
+                              <option>4.5</option>
+                              <option>5</option>
+                            </select>
+                            <br>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="addReview" class="col-lg-2 control-label" style="color: #000;">Review</label>
+                          <div class="col-lg-10">
+                            <textarea name="addReview" class="form-control" rows="3" id="addReview" placeholder="Write your review here"></textarea>
+                          </div>
+                        </div>
+                        <div class="form-group" style="margin: 5%;">
+                          <div class="col-lg-10 col-lg-offset-2">
+                            <button type="submit" class="btn btn-primary">Review</button>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </form>
+                  </div>
+              </div>
+
             <div class="panel panel-primary" >
                 <div class="panel-heading" style="background-color: #E86834;">
                   <h3 class="panel-title">Reviews</h3>
@@ -234,6 +313,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').focus()
+      })
+    </script>
   </body>
 </html>
-

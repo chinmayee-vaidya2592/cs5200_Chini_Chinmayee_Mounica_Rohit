@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -49,8 +50,7 @@
             
           <!-- LINK TO REMOVE -->
             <li><a href="./index.html" style="color: #385185;">Home</a></li>
-            <li><a href="./profile.html" style="color: #385185;">Profile</a></li>
-            <li class="active" style="color: #385185;"><a href="./addEvent.html">Add Event</a></li>
+            <li class="active" style="color: #385185;"><a href="./profile.html">Profile</a></li>
             <li><a href="./login.html" style="color: #385185;">Sign In</a></li>
             <li><a href="./register.html" style="color: #385185;">Register</a></li>
           </ul>
