@@ -30,6 +30,23 @@ public class RegisteredUser extends User {
     private String lastName;
     private Connection conn;
     
+    
+    public RegisteredUser(int id, String username, String email, String password, List<Comments> comment_list,
+			List<UserGenre> genre, boolean has_access, String firstName, String lastName, Connection conn) {
+		super(id);
+		this.id = id;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.comment_list = comment_list;
+		Genre = genre;
+		this.has_access = has_access;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.conn = conn;
+	}
+    
+    
     public Connection getConn() {
 		return conn;
 	}
@@ -73,20 +90,7 @@ public class RegisteredUser extends User {
         return has_access;
     }
     
-    public RegisteredUser(int id, String username, String email, String password, List<Comments> comment_list,
-			List<UserGenre> genre, boolean has_access, String firstName, String lastName, Connection conn) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.email = email;
-		this.password = password;
-		this.comment_list = comment_list;
-		Genre = genre;
-		this.has_access = has_access;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.conn = conn;
-	}
+   
 
 	public void set_Access(Boolean a){
         this.has_access = a;
@@ -117,10 +121,7 @@ public class RegisteredUser extends User {
     public void setlname(String lname){
         this.lastName = lname;
     }
-    
-    public RegisteredUser() {
-    	super();
-    }
+  
     
     public RegisteredUser(int id){
         super(id);
@@ -161,6 +162,7 @@ public class RegisteredUser extends User {
     public RegisteredUser(){
     	super();
     }
+    
     public RegisteredUser getUser(Connection connection, String username, String password) throws SQLException{
     	RegisteredUser r=null;
         int userid;

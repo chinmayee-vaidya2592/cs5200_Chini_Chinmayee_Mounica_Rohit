@@ -22,6 +22,9 @@
 			String password = request.getParameter("password");
 			RegisteredUser rs = new RegisteredUser();
 			RegisteredUser rs1 = rs.getUser(connection, username, password);
+			if (rs1.getid() > 0) {
+				 response.sendRedirect("http://localhost:8080/RottenPotatoes/profile.jsp?userId="+rs1.getid());
+			}
 		}
 		
 	%>
