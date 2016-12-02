@@ -33,6 +33,29 @@ public class RegisteredUser extends User {
     private String lastName;
     private Connection conn;
     
+    public RegisteredUser(Connection con, int userId) throws Exception {
+    	this.conn = con;
+    	this.id = userId;
+    	PreparedStatement getUser = con.prepareStatement("select * from RegisteredUser ru where ru.id = ?");
+    	Utils.printDatabaseWarning(getUser.getWarnings());
+    	try {
+    		getUser.setInt(1, userId);
+    		ResultSet rsUser = getUser.executeQuery();
+    		Utils.printQueryWarning(getUser.getWarnings());
+    		if (rsUser.next()) {
+    			this.username = rsUser.getString(2);
+    			this.password = rsUser.getString(3);
+    			this.email = rsUser.getString(4);
+    			this.firstName = rsUser.getString(5);
+    			this.lastName = rsUser.getString(6);
+    			this.has_access = rsUser.getBoolean(7);
+    		} else {
+    			throw new Exception("User not found!");
+    		}
+    	} finally {
+    		getUser.close();
+    	}
+    }
     
     public RegisteredUser(int id, String username, String email, String password, List<Comments> comment_list,
 			List<UserGenre> genre, boolean has_access, String firstName, String lastName, Connection conn) {
@@ -130,6 +153,27 @@ public class RegisteredUser extends User {
         super(id);
     }
     
+    public int getUserAuthentication(Connection con, String username, String password) throws Exception{
+    	int result = 0;
+    	PreparedStatement getUser = con.prepareStatement("select id from RegisteredUser where username = ? and password = ?");
+    	Utils.printDatabaseWarning(getUser.getWarnings());
+    	try {
+    		getUser.setString(1, username);
+    		getUser.setString(2, password);
+    		ResultSet rsAu = getUser.executeQuery();
+    		Utils.printQueryWarning(getUser.getWarnings());
+    		if (rsAu.next()) {
+    			result = rsAu.getInt(1);
+    		} else {
+    			result = 0;
+    		}
+    	} finally {
+    		getUser.close();
+    	}
+    	return result;
+    }
+ 
+    
     public RegisteredUser createUser(Connection con, String username,String password, 
             String email, String firstname, String lastname)throws SQLException{
     	RegisteredUser r = null;
@@ -209,7 +253,7 @@ public class RegisteredUser extends User {
         ("select id,username,password,email,hasAccess,firstName,lastName "
                 + "from  RegisteredUser where username = ? and password = ?");
         PreparedStatement getGenres = conn.prepareStatement
-                ("select u.genreType from UserGenre u, RegisteredUser r where u.id = r.id and r.username = ?"
+                ("select u.genre from UserGenre u, RegisteredUser r where u.user = r.id and r.username = ?"
                         + "and r.password = ?");
         PreparedStatement getcomments = conn.prepareStatement
         ("select c.commentText, c.commentTime from Comment c, UserComment u where c.id = u.comment and u.commentedOnBy = ?");
@@ -278,10 +322,10 @@ public class RegisteredUser extends User {
     	RegisteredUser r=null;
         this.conn = connection;
         PreparedStatement getUser = conn.prepareStatement
-        ("select username,password,email,hasAccess,firstName,lastName "
+        		("select username,password,email,hasAccess,firstName,lastName "
                 + "from  RegisteredUser where id=?");
         PreparedStatement getGenres = conn.prepareStatement
-                ("select u.genreType from UserGenre u, RegisteredUser r where u.id = r.id and r.id = ?");
+                ("select u.genreType from UserGenre u where u.user = ?");
         PreparedStatement getcomments = conn.prepareStatement
         ("select c.commentText, c.commentTime from Comment c, UserComment u where c.id = u.comment and u.commentedOnBy = ?");
         SQLWarning warning = getUser.getWarnings();
@@ -294,10 +338,7 @@ public class RegisteredUser extends User {
             getGenres.setInt(1,id);
             getcomments.setInt(1, id);
             ResultSet rs = getUser.executeQuery();
-            SQLWarning querywarning = getUser.getWarnings();         
-            while(querywarning != null){
-                System.out.println("Query warning: " + querywarning);
-            }
+            Utils.printQueryWarning(rs.getWarnings());
             
             while(rs.next()){
             	r = new RegisteredUser();
@@ -309,10 +350,7 @@ public class RegisteredUser extends User {
                 r.setfname(rs.getString(5));
                 r.setlname(rs.getString(6));
                 ResultSet g = getGenres.executeQuery();
-                SQLWarning querywarning1 = getGenres.getWarnings();
-                while(querywarning1 != null){
-                System.out.println("Query warning: " + querywarning);
-            }
+                Utils.printQueryWarning(g.getWarnings());
                 while(g.next()){
                     UserGenre ug = new UserGenre();
                     UserGenre ug1 = ug.getug(GenreType.valueOf(g.getString(1)));
@@ -320,6 +358,7 @@ public class RegisteredUser extends User {
                     r.Genre = Genre;
                 }
                 ResultSet c = getcomments.executeQuery();
+                Utils.printQueryWarning(c.getWarnings());
                 while(c.next()){
                     String text = rs.getString(1);
                     Date d = rs.getDate(2);
@@ -415,7 +454,7 @@ public class RegisteredUser extends User {
     
     public String getUserNameById(Connection con, int userId) throws Exception {
     	String name = "";
-    	PreparedStatement getName = con.prepareStatement("select name from RegisteredUser where id = ?");
+    	PreparedStatement getName = con.prepareStatement("select username from RegisteredUser where id = ?");
     	Utils.printDatabaseWarning(getName.getWarnings());
     	try {
     		getName.setInt(1, userId);
