@@ -49,6 +49,7 @@
           <!-- LINK TO REMOVE -->
             <li class="active" style="color: #385185;"><a href="./index.html">Home</a></li>
             <li><a href="./profile.html" style="color: #385185;">Profile</a></li>
+            <li><a href="./addEvent.html" style="color: #385185;">Add Event</a></li>
             <li><a href="./login.html" style="color: #385185;">Sign In</a></li>
             <li><a href="./register.html" style="color: #385185;">Register</a></li>
           </ul>

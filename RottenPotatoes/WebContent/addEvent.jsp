@@ -49,7 +49,8 @@
             
           <!-- LINK TO REMOVE -->
             <li><a href="./index.html" style="color: #385185;">Home</a></li>
-            <li class="active" style="color: #385185;"><a href="./profile.html">Profile</a></li>
+            <li><a href="./profile.html" style="color: #385185;">Profile</a></li>
+            <li class="active" style="color: #385185;"><a href="./addEvent.html">Add Event</a></li>
             <li><a href="./login.html" style="color: #385185;">Sign In</a></li>
             <li><a href="./register.html" style="color: #385185;">Register</a></li>
           </ul>
