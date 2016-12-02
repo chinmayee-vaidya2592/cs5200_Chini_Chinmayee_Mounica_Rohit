@@ -169,7 +169,7 @@ public abstract class User {
 			}
 			
 			if(updateCount!=1){
-				throw new Exception("No apartment has that id");
+				throw new Exception("No review with the id");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
