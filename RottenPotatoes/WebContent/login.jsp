@@ -1,3 +1,6 @@
+<%@page import="umlClasses.RegisteredUser"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.DriverManager"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -9,7 +12,19 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-
+	<%
+		DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
+		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbms_project",
+			"root", "chini");
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		if(request.getParameter("username")!=null && request.getParameter("password")!=null) {
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			RegisteredUser rs = new RegisteredUser();
+			RegisteredUser rs1 = rs.getUser(connection, username, password);
+		}
+		
+	%>
     <title>RottenPotatoes</title>
 
     <!-- Bootstrap core CSS -->
@@ -65,20 +80,20 @@
               <form class="form-horizontal">
                 <fieldset>
                   <div class="form-group">
-                    <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+                    <label for="inputEmail" class="col-lg-2 control-label">Username</label>
                     <div class="col-lg-10">
-                      <input type="text" class="form-control" id="inputEmail" placeholder="Email">
+                      <input name="username" type="text" class="form-control" id="inputEmail" placeholder="Email">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputPassword" class="col-lg-2 control-label">Password</label>
                     <div class="col-lg-10">
-                      <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                      <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Password">
                     </div>
                   </div>
                   <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                      <button type="submit" class="btn btn-primary">Sign In</button>
+                      <button type="submit" class="btn btn-primary" on-click="submit()">Sign In</button>
                     </div>
                   </div>
                 </fieldset>
@@ -102,7 +117,6 @@
         </div>
       </div>
     </footer>
-
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

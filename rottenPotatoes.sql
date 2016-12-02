@@ -2,9 +2,11 @@
 
 # User
 create table `User` (
-	id int primary key auto_increment,
-	hasAccess boolean not null
+	id int primary key auto_increment
 );
+
+insert into User values(1);
+
 
 # Event
 create table `Event` (
@@ -125,6 +127,8 @@ create table `RegisteredUser`(
     `hasAccess` boolean not null
 );
 
+insert into RegisteredUser values (1, 'rohit', 'rohit', 'rohit@rohit.com', 'Rohit', 'Dumb', 1);
+
 #UserGenre
 create table UserGenre(
 	id int primary key auto_increment,
@@ -157,6 +161,3 @@ create table `UserTicket` (
 	foreign key(`ticket`) references `Ticket`(`id`) on update cascade on delete cascade,
 	primary key (`user`, `ticket`)
 );
-	
-
-select * from comment;

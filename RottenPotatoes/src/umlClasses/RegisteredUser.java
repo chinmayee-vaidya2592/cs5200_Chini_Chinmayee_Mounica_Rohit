@@ -102,6 +102,11 @@ public class RegisteredUser extends User {
     public void setlname(String lname){
         this.lastName = lname;
     }
+    
+    public RegisteredUser() {
+    	super();
+    }
+    
     public RegisteredUser(int id){
         super(id);
     }
