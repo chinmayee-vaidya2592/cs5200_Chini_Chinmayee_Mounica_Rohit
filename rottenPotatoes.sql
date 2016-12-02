@@ -12,8 +12,12 @@ create table `Event` (
 	`name` varchar(200) not null,
 	`description` varchar(1000) not null,
 	`calculatedRating` double,
+	`startDate` date,
+	`endDate` date,
+	`showTime` varchar(100),
+	`type` enum ('Play', 'Musical') not null,
 	`availableTickets` int,
-	`type` enum ('Play', 'Musical') not null
+	`ticketPrice` int
 );
 
 # Multi valued show dates
@@ -29,7 +33,8 @@ create table `EventShowDate` (
 create table `Ticket` (
 	`id` int primary key AUTO_INCREMENT,
 	`event` int not null,
-	foreign key(`event`) references `Event`(`id`) on delete no action on update no action
+	foreign key(`event`) references `Event`(`id`) on delete no action on update no action,
+	`showDate` date
 );
 
 #Artists
@@ -153,3 +158,5 @@ create table `UserTicket` (
 	primary key (`user`, `ticket`)
 );
 	
+
+select * from comment;

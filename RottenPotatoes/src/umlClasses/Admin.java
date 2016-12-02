@@ -14,6 +14,10 @@ import java.sql.SQLWarning;
  */
 public class Admin extends RegisteredUser{
 
+	public Admin(int id) {
+		super(id);
+	}
+
 	/**
 	 * @param user creates a new user according to the registered user object passed
 	 * @throws Exception 
@@ -30,7 +34,7 @@ public class Admin extends RegisteredUser{
 				System.err.println("Database Warnings! "+warnings);
 			}
 			userInsert.setString(1, user.getusername());
-			userInsert.setString(2, user.getpassword());
+			userInsert.setString(2, user.getPassword());
 			userInsert.setString(3, user.getemail());
 			userInsert.setString(4, "FirstName Attribute Name");
 			userInsert.setString(5, "LastName Attribute Name");
@@ -70,7 +74,7 @@ public class Admin extends RegisteredUser{
 				System.err.println("Database Warnings! "+warnings);
 			}
 			updateuser.setString(1, user.getusername());
-			updateuser.setString(2, user.getpassword());
+			updateuser.setString(2, user.getPassword());
 			updateuser.setString(3, user.getemail());
 			updateuser.setString(4, "FirstName");
 			updateuser.setString(5, "LastName");

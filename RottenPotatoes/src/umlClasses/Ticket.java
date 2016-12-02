@@ -1,12 +1,18 @@
 package umlClasses;
 
-import java.sql.Connection;
+import java.util.Date;
 
 public class Ticket {
 	
 	private int ticketId;
-	private int price;
-	private Connection connection;
+	private int eventId;
+	private Date showDate;
+	
+	public Ticket(int ticketId, int price, int eventId, Date showDate) {
+		this.ticketId = ticketId;
+		this.eventId = eventId;
+		this.showDate = showDate;
+	}
 	
 	public int getTicketId() {
 		return ticketId;
@@ -16,20 +22,20 @@ public class Ticket {
 		this.ticketId = ticketId;
 	}
 
-	public int getPrice() {
-		return price;
+	public int getEventId() {
+		return eventId;
 	}
 
-	public void setPrice(int price) {
-		this.price = price;
+	public void setEventId(int eventId) {
+		this.eventId = eventId;
 	}
 
-	public Connection getConnection() {
-		return connection;
+	public Date getShowDate() {
+		return showDate;
 	}
 
-	public void setConnection(Connection connection) {
-		this.connection = connection;
+	public void setShowDate(Date showDate) {
+		this.showDate = showDate;
 	}
 
 }
