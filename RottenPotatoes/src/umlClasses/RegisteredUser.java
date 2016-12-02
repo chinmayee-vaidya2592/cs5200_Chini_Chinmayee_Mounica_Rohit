@@ -73,7 +73,22 @@ public class RegisteredUser extends User {
         return has_access;
     }
     
-    public void set_Access(Boolean a){
+    public RegisteredUser(int id, String username, String email, String password, List<Comments> comment_list,
+			List<UserGenre> genre, boolean has_access, String firstName, String lastName, Connection conn) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.comment_list = comment_list;
+		Genre = genre;
+		this.has_access = has_access;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.conn = conn;
+	}
+
+	public void set_Access(Boolean a){
         this.has_access = a;
     }
     
@@ -143,8 +158,11 @@ public class RegisteredUser extends User {
         }
     }
     
-   
-    public void getUser(Connection connection, String username, String password) throws SQLException{
+    public RegisteredUser(){
+    	super();
+    }
+    public RegisteredUser getUser(Connection connection, String username, String password) throws SQLException{
+    	RegisteredUser r=null;
         int userid;
         this.conn = connection;
         PreparedStatement getUser = conn.prepareStatement
@@ -170,15 +188,17 @@ public class RegisteredUser extends User {
             while(querywarning != null){
                 System.out.println("Query warning: " + querywarning);
             }
+            
             while(rs.next()){
+            	r = new RegisteredUser();
                 userid = rs.getInt(1);
-                this.id = userid;
-                this.username = rs.getString(2);
-                this.setPassword(rs.getString(3));
-                this.email = rs.getString(4);
-                this.has_access = rs.getBoolean(5);
-                this.firstName = rs.getString(6);
-                this.lastName = rs.getString(7);
+                r.id = userid;
+                r.username = rs.getString(2);
+                r.setPassword(rs.getString(3));
+                r.email = rs.getString(4);
+                r.has_access = rs.getBoolean(5);
+                r.firstName = rs.getString(6);
+                r.lastName = rs.getString(7);
                 ResultSet g = getGenres.executeQuery();
                 SQLWarning querywarning1 = getGenres.getWarnings();
                 while(querywarning1 != null){
@@ -188,6 +208,7 @@ public class RegisteredUser extends User {
                     UserGenre ug = new UserGenre();
                     UserGenre ug1 = ug.getug(GenreType.valueOf(g.getString(1)));
                     Genre.add(ug1);
+                    r.Genre = Genre;
                 }
                 ResultSet c = getcomments.executeQuery();
                 while(c.next()){
@@ -196,15 +217,19 @@ public class RegisteredUser extends User {
                     Comments co = new Comments();
                     Comments comm = co.getComment(text,d);
                     comment_list.add(comm);
+                    r.comment_list = comment_list;
                 }
                 
             }
+            
             
         }catch(Exception e){
             System.out.println("Invalid entries "+ e);
         }finally{
             getUser.close();
         }
+        
+       return r;
 
     }
     

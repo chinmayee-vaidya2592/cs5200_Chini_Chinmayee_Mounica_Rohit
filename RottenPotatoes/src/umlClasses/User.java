@@ -9,11 +9,7 @@ import java.sql.SQLWarning;
 
 public abstract class User {
 	private int id;
-	
-	public User() {
-	
-	}
-	
+
 	public User(int id) {
 		this.id = id;
 	}
