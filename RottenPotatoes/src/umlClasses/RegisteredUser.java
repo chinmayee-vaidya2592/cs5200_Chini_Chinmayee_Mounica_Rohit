@@ -385,6 +385,23 @@ public class RegisteredUser extends User {
 		return r;
 	}
     
-    
+    public String getUserNameById(Connection con, int userId) throws Exception {
+    	String name = "";
+    	PreparedStatement getName = con.prepareStatement("select name from RegisteredUser where id = ?");
+    	Utils.printDatabaseWarning(getName.getWarnings());
+    	try {
+    		getName.setInt(1, userId);
+    		ResultSet rsName = getName.executeQuery();
+    		Utils.printQueryWarning(getName.getWarnings());
+    		if (rsName.next()) {
+    			name = rsName.getString(1);
+    		} else {
+    			throw new Exception("User not found!");
+    		}
+    	} finally {
+    		getName.close();
+    	}
+    	return name;
+    }
     
 }

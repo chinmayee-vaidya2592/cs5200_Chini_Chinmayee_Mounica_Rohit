@@ -22,7 +22,7 @@
 			RegisteredUser rs1 = rs.getUser(connection, username, password);
 			if (rs1 != null) {
 				if (rs1.getid() > 0) {
-					 response.sendRedirect("http://localhost:8080/RottenPotatoes/profile.jsp?userId="+rs1.getid());
+					 response.sendRedirect("profile.jsp?userId="+rs1.getid());
 				} 
 			} else {
 				out.println("<script type=\"text/javascript\">");
@@ -71,8 +71,6 @@
             
           <!-- LINK TO REMOVE -->
             <li><a href="./index.jsp" style="color: #385185;">Home</a></li>
-            <li><a href="./profile.jsp" style="color: #385185;">Profile</a></li>
-            <li><a href="./addEvent.jsp" style="color: #385185;">Add Event</a></li>
             <li class="active" style="color: #385185;"><a href="./login.jsp">Sign In</a></li>
             <li><a href="./register.jsp" style="color: #385185;">Register</a></li>
           </ul>

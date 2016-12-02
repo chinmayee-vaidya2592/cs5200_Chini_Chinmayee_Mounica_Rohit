@@ -1,7 +1,7 @@
 <%@page import="utils.GetConnection"%>
-<%@page import="umlClasses.RegisteredUser"%>
 <%@page import="java.sql.Connection"%>
-<%@page import="java.sql.DriverManager"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="umlClasses.Event"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -14,6 +14,22 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+	<%
+		Connection con = GetConnection.getConnection();
+		Event event = new Event();
+		ArrayList<Event> eventList = event.getExistingEvents(con);
+		if (eventList == null) {
+			out.println("<script type=\"text/javascript\">");
+			out.println("alert('No events to display!');");
+			out.println("location='index.jsp';");
+			out.println("</script>");
+		}
+		int userId = 0;
+		if (request.getParameter("userId") != null) {
+			userId = Integer.parseInt(request.getParameter("userId"));
+		}
+	%>
+	
     <title>RottenPotatoes</title>
 
     <!-- Bootstrap core CSS -->
@@ -30,23 +46,6 @@
     <!-- Custom styles for this template -->
     
   </head>
-  
-  	<%
-		Connection connection = GetConnection.getConnection(); 
-		int userId = 0;
-		if(request.getParameter("userId")!=null) {
-			userId = Integer.parseInt(request.getParameter("userId"));
-		}
-		RegisteredUser rs = new RegisteredUser(); 
-		RegisteredUser rs1 = rs.getUserById(connection, userId);
-		if (rs1 == null) {
-			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Error in retrieving values of the user.');");
-			out.println("location='login.jsp';");
-			out.println("</script>");
-		}
-		
-	%>
 
   <body style="background-color: #39A0CD;">
 
@@ -68,8 +67,8 @@
             <li><a href="./eventPage.jsp" style="color: #385185;">Event Page (Development Link)</a></li>
             
           <!-- LINK TO REMOVE -->
-            <li><a href="./Home.jsp?userId=<%=userId%>" style="color: #385185;">Home</a></li>
-            <li class="active" style="color: #385185;"><a href="./profile.jsp">Profile</a></li>
+            <li class="active" style="color: #385185;"><a href="./Home.jsp">Home</a></li>
+            <li><a href="./profile.jsp" style="color: #385185;">Profile</a></li>
             <li><a href="./addEvent.jsp" style="color: #385185;">Add Event</a></li>
             <li><a href="./index.jsp" style="color: #385185;">Logout</a></li>
           </ul>
@@ -77,55 +76,57 @@
       </div>
     </nav>
 
-        <div id="wrap">
-    <div class="container center_div" id="top">
-      <div class="panel panel-default">
-          <div class="panel-heading">Profile</div>
-            <div class="panel-body">
-              <form class="form-horizontal">
-                <fieldset>
-                  <div class="form-group">
-                    <label for="inputFirstName" class="col-lg-2 control-label">First Name</label>
-                    <div class="col-lg-10">
-                      <input type="text" class="form-control" id="inputFirstName" placeholder="First Name" value="<%=rs1.getfname()%>">
-                    </div>
+      <div class="container-fluid" style=" padding-top: 5%; padding-bottom: 10%;">
+
+        <div class="row">
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+          <% for (Event e : eventList) { %>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div class="panel panel-primary" >
+                <div class="panel-heading" style="background-color: #DA4339;">
+                  <div class="row">
+                    <h3 class="panel-title col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                    <a href='eventPage.jsp?eventId=<%=e.getId()%>&userId=<%=userId%>'><%=e.getName()%></a>
+                    </h3>
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                   </div>
-                  <div class="form-group">
-                    <label for="inputLastName" class="col-lg-2 control-label">Last Name</label>
-                    <div class="col-lg-10">
-                      <input type="text" class="form-control" id="inputLastName" placeholder="Last Name" value="<%=rs1.getlname()%>">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputUsername" class="col-lg-2 control-label">Username</label>
-                    <div class="col-lg-10">
-                      <input type="text" class="form-control" id="inputUsername" placeholder="Username" value="<%=rs1.getusername()%>">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputEmail" class="col-lg-2 control-label">Email</label>
-                    <div class="col-lg-10">
-                      <input type="text" class="form-control" id="inputEmail" placeholder="Email" value="<%=rs1.getemail()%>">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputPassword" class="col-lg-2 control-label">Password</label>
-                    <div class="col-lg-10">
-                      <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-lg-10 col-lg-offset-2">
-                      <button type="submit" class="btn btn-primary">Update</button>
-                    </div>
-                  </div>
-                </fieldset>
-              </form>
+                </div>
+                <div class="panel-body">
+                  <%=e.getDescription()%>
+                </div>
+              </div>
             </div>
-          </div>
-      </div>
+           <% } %>
+           </div>
+          <!-- Movie List column closing -->
+
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <div class="panel panel-primary" >
+                <div class="panel-heading" style="background-color: #E86834;">
+                  <h3 class="panel-title">Recommended Events</h3>
+                </div>
+                <div class="panel-body">
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <span class="badge">3.5</span>
+                      A Christmas Carol
+                    </li>
+                    <li class="list-group-item">
+                      <span class="badge">4</span>
+                      A Christmas Carol II
+                    </li>
+                    <li class="list-group-item">
+                      <span class="badge">2</span>
+                      A Christmas Carol III
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+        </div> <!-- Row -->
     </div><!-- /.container -->
-    </div>
+
 
     <footer class="footer" style="background-color:#fff;">
       <div class="container">

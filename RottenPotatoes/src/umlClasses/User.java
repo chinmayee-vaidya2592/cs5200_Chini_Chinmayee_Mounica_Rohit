@@ -139,7 +139,7 @@ public abstract class User {
 		try {
 			insertReviewText.setInt(1, newReviewId);
 			insertReviewText.setString(2, reviews.getDescription());
-			insertReviewText.setInt(3, reviews.getRating());
+			insertReviewText.setDouble(3, reviews.getRating());
 			int insertCount1 = insertReviewText.executeUpdate();
 			if (insertCount1 != 1) {
 				throw new Exception("Error inserting records!");
