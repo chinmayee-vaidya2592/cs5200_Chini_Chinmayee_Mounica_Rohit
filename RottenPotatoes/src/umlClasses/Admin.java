@@ -5,11 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * 
- * @author Chinmayee
+ * @author Chinmayee Vaidya
  *
  */
 public class Admin extends RegisteredUser{
@@ -211,7 +213,7 @@ public class Admin extends RegisteredUser{
 	public void deleteAllReviews(int user_id, Connection conn) throws Exception{
 		PreparedStatement deleteAllReviewsForUser;
 		try {
-			deleteAllReviewsForUser = conn.prepareStatement("select comment from UserReview where reviewedBy = ?");
+			deleteAllReviewsForUser = conn.prepareStatement("select reviewId from UserReview where reviewedBy = ?");
 			SQLWarning warnings;
 			warnings =deleteAllReviewsForUser.getWarnings();
 			while(warnings!=null){
@@ -228,5 +230,52 @@ public class Admin extends RegisteredUser{
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public List<RegisteredUser> getAllUsers(Connection conn) throws SQLException{
+		List<RegisteredUser> users = new ArrayList<RegisteredUser>();
+		PreparedStatement ps = conn.prepareStatement("select * from RegisteredUser");
+		SQLWarning warnings;
+		warnings =ps.getWarnings();
+		while(warnings!=null){
+			System.err.println("Database Warnings! "+warnings);	
+	} 
+		ResultSet rs = ps.executeQuery();
+		while(rs.next()){
+			RegisteredUser ru = new RegisteredUser();
+			ru.setId(rs.getInt(1));
+			ru.setusername(rs.getString(2));
+			ru.setPassword(rs.getString(3));
+			ru.setemail(rs.getString(4));
+			ru.setfname(rs.getString(5));
+			ru.setlname(rs.getString(6));
+			ru.set_Access(rs.getBoolean(7));
+			ru.setConn(conn);
+			users.add(ru);
+		}
+		return users;
+	}
+	
+	public List<Event> getAllEvents(Connection conn){
+		List<Event> events = new ArrayList<Event>();
+		try {
+			PreparedStatement ps = conn.prepareStatement("select * from Event");
+			SQLWarning warnings;
+			warnings =ps.getWarnings();
+			while(warnings!=null){
+				System.err.println("Database Warnings! "+warnings);	
+		} 
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				Event e = new Event();
+				e.setId(rs.getInt(1));
+				e.setName(rs.getString(2));
+				e.setDescription(rs.getString(3));
+				events.add(e);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return events;
 	}
 }
