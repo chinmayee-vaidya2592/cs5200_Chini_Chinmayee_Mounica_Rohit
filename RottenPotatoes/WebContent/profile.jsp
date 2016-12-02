@@ -80,6 +80,13 @@
               <form class="form-horizontal">
                 <fieldset>
                   <div class="form-group">
+                  	<div class="btn-group">
+                  		<button type="button" class="btn btn-primary glyphicon glyphicon-plus" style="border-radius: 0 !important; color: #fff;">
+                 			<a href="./addEvent.jsp" style="color: #fff;">Add Event</a>
+                  		</button>
+                  	</div>
+                  	</div>
+                  	<div class="form-group">
                     <label for="inputFirstName" class="col-lg-2 control-label">First Name</label>
                     <div class="col-lg-10">
                       <input type="text" class="form-control" id="inputFirstName" placeholder="First Name" value="<%=rs1.getfname()%>">
@@ -108,6 +115,32 @@
                     <div class="col-lg-10">
                       <input type="password" class="form-control" id="inputPassword" placeholder="Password">
                     </div>
+                  </div>
+                   <div class="form-group">
+                  <div class="row">
+                  	<span class="col-lg-2 col-md-2"></span>
+                  	<h6 class="col-lg-10 col-md-10">
+                  		Choose you favorite genres for specially curated recommendations
+                  	</h6>
+                  	</div>
+                  	<div class="checkbox">
+                  	<span class="col-lg-2 col-md-2"></span>
+			          <label for="genreSelection" class="col-lg-2 control-label">
+			            <input type="checkbox">Horror
+			          </label>
+			          <label for="genreSelection" class="col-lg-2 control-label">
+			            <input type="checkbox">Thriller
+			          </label>
+			          <label for="genreSelection" class="col-lg-2 control-label">
+			            <input type="checkbox">History
+			          </label>
+			          <label for="genreSelection" class="col-lg-2 control-label">
+			            <input type="checkbox">Drama
+			          </label>
+			          <label for="genreSelection" class="col-lg-2 control-label">
+			            <input type="checkbox">Comedy
+			          </label>
+			        </div>
                   </div>
                   <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
