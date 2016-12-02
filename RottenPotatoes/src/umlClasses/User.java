@@ -67,6 +67,7 @@ public abstract class User {
 			insertCommentText.setString(2, comments.getCommentText());
 			insertCommentText.setDate(3, (Date) comments.getDate());
 			int insertCount1 = insertCommentText.executeUpdate();
+			Utils.printUpdateWarning(insertCommentText.getWarnings());
 			if (insertCount1 != 1) {
 				throw new Exception("Error inserting records!");
 			}
@@ -74,6 +75,7 @@ public abstract class User {
 			insertComment.setInt(2, this.getId());
 			insertComment.setInt(3, newCommentId);
 			int insertCount2 = insertComment.executeUpdate();
+			Utils.printUpdateWarning(insertComment.getWarnings());
 			if (insertCount2 != 1) {
 				throw new Exception("Error inserting records!");
 			}

@@ -232,4 +232,28 @@ public class Event {
 		}
 		return eventList;
 	}
+	
+	public int updateAvailableTickets(int ticketCount) throws Exception {
+		int leftTickets = 0;
+		if (this.getAvailableTickets() >= ticketCount) {
+			leftTickets = this.getAvailableTickets() - ticketCount;
+			PreparedStatement updateTicket = getConnection().prepareStatement("update Event set availableTickets = ? "
+					+ "where id = ?");
+			Utils.printDatabaseWarning(updateTicket.getWarnings());
+			try {
+			
+				updateTicket.setInt(1, leftTickets);
+				updateTicket.setInt(2, this.id);
+				int updateCount = updateTicket.executeUpdate();
+				Utils.printUpdateWarning(updateTicket.getWarnings());
+				if (updateCount != 1) {
+					throw new Exception("Error inserting records!");
+				}			
+			} finally {
+				updateTicket.close();
+			}
+		}
+		System.out.println("Tickets left: " + leftTickets);
+		return leftTickets;
+	}
 }

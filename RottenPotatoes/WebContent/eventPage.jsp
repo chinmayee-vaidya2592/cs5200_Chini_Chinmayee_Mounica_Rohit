@@ -47,6 +47,7 @@
     		    Ticket created = t.createTicket(con, eventId, userId, showDate);
     		    ticketCreated.add(created);
     		}
+    		int ticketAvailable = event.updateAvailableTickets(count);
     		StringBuilder sb = new StringBuilder("Ticket for " + Utils.getUserNameById(con, userId));
         	for (Ticket tick : ticketCreated) {
         		sb.append(": Ticket ID:" + tick.getTicketId() + ",");
@@ -55,8 +56,13 @@
 			out.println("alert('"+ sb.toString() + "');");
 			out.println("location='Home.jsp';");
 			out.println("</script>");
-    	}
-    	
+			if (ticketAvailable < count || ticketAvailable == 0) {
+				out.println("<script type=\"text/javascript\">");
+				out.println("alert('Insufficient number of tickets left!')");
+				out.println("location='Home.jsp';");
+				out.println("</script>");
+			}
+    	} 
     	
     %>
 

@@ -30,6 +30,7 @@ UPDATE event set type = 'Musical' where id = 2;
 UPDATE event set endDate = '2016-12-13' where id = 1;
 select id, name, description, type, genreType from event 
 order by genreType;
+delete from Ticket;
 
 # Multi valued show dates
 create table `EventShowDate` (
@@ -58,8 +59,7 @@ select if(max(id)+1 is null, 1, max(id) + 1) from Ticket;
 
 #Artists
 
-
-
+select * from event;
 
 
 #Admin
