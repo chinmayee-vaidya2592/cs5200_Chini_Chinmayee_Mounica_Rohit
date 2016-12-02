@@ -1,3 +1,7 @@
+<%@page import="utils.GetConnection"%>
+<%@page import="umlClasses.RegisteredUser"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.DriverManager"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -26,6 +30,19 @@
     <!-- Custom styles for this template -->
     
   </head>
+  
+  	<%
+		Connection connection = GetConnection.getConnection(); 
+		int userId = 0;
+		if(request.getParameter("userId")!=null) {
+			userId = Integer.parseInt(request.getParameter("userId"));
+		}
+		RegisteredUser rs = new RegisteredUser(); 
+		RegisteredUser rs1 = rs.getUserById(connection, userId);
+		System.out.println(rs1.getfname());
+		
+		
+	%>
 
   <body style="background-color: #39A0CD;">
 
@@ -67,25 +84,25 @@
                   <div class="form-group">
                     <label for="inputFirstName" class="col-lg-2 control-label">First Name</label>
                     <div class="col-lg-10">
-                      <input type="text" class="form-control" id="inputFirstName" placeholder="First Name">
+                      <input type="text" class="form-control" id="inputFirstName" placeholder="First Name" value="<%=rs1.getfname()%>">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputLastName" class="col-lg-2 control-label">Last Name</label>
                     <div class="col-lg-10">
-                      <input type="text" class="form-control" id="inputLastName" placeholder="Last Name">
+                      <input type="text" class="form-control" id="inputLastName" placeholder="Last Name" value="<%=rs1.getlname()%>">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputUsername" class="col-lg-2 control-label">Username</label>
                     <div class="col-lg-10">
-                      <input type="text" class="form-control" id="inputUsername" placeholder="Username">
+                      <input type="text" class="form-control" id="inputUsername" placeholder="Username" value="<%=rs1.getusername()%>">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputEmail" class="col-lg-2 control-label">Email</label>
                     <div class="col-lg-10">
-                      <input type="text" class="form-control" id="inputEmail" placeholder="Email">
+                      <input type="text" class="form-control" id="inputEmail" placeholder="Email" value="<%=rs1.getemail()%>">
                     </div>
                   </div>
                   <div class="form-group">

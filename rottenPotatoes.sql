@@ -124,8 +124,7 @@ create table `RegisteredUser`(
     foreign key(id) references `User`(id) 
           on update no action
           on delete no action,
-    `hasAccess` boolean not null
-);
+    `hasAccess` boolean not null)
 
 insert into RegisteredUser values (1, 'rohit', 'rohit', 'rohit@rohit.com', 'Rohit', 'Dumb', 1);
 
@@ -161,3 +160,5 @@ create table `UserTicket` (
 	foreign key(`ticket`) references `Ticket`(`id`) on update cascade on delete cascade,
 	primary key (`user`, `ticket`)
 );
+
+select if(max(id)+1 is null, 1, max(id) + 1) from Review;

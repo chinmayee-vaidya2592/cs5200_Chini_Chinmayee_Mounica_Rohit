@@ -60,7 +60,7 @@ public class Comments {
 	
 	public int getNewCommentId() throws Exception{
 		int newId = 0;
-		PreparedStatement getMaxId = getConnection().prepareStatement("select max(id)+1 from Comment");
+		PreparedStatement getMaxId = getConnection().prepareStatement("select if(max(id)+1 is null, 1, max(id) + 1) from Review");
 		Utils.printDatabaseWarning(getMaxId.getWarnings());
 		try {
 			ResultSet rs = getMaxId.executeQuery();

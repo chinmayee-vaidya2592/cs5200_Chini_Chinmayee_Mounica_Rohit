@@ -1,3 +1,4 @@
+<%@page import="utils.GetConnection"%>
 <%@page import="umlClasses.RegisteredUser"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.DriverManager"%>
@@ -13,10 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 	<%
-		DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
-		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbms_project",
-			"root", "chini");
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		Connection connection = GetConnection.getConnection();
 		if(request.getParameter("username")!=null && request.getParameter("password")!=null) {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");

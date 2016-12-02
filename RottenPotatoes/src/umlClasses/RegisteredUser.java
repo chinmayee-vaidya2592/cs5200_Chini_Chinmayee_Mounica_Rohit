@@ -276,7 +276,6 @@ public class RegisteredUser extends User {
 
     public RegisteredUser getUserById(Connection connection, int id) throws SQLException{
     	RegisteredUser r=null;
-        int userid;
         this.conn = connection;
         PreparedStatement getUser = conn.prepareStatement
         ("select username,password,email,hasAccess,firstName,lastName "
@@ -303,12 +302,12 @@ public class RegisteredUser extends User {
             while(rs.next()){
             	r = new RegisteredUser();
                 r.setid(id);
-                r.setusername(rs.getString(2));
-                r.setPassword(rs.getString(3));
-                r.setemail(rs.getString(4));
-                r.set_Access(rs.getBoolean(5));
-                r.setfname(rs.getString(6));
-                r.setlname(rs.getString(7));
+                r.setusername(rs.getString(1));
+                r.setPassword(rs.getString(2));
+                r.setemail(rs.getString(3));
+                r.set_Access(rs.getBoolean(4));
+                r.setfname(rs.getString(5));
+                r.setlname(rs.getString(6));
                 ResultSet g = getGenres.executeQuery();
                 SQLWarning querywarning1 = getGenres.getWarnings();
                 while(querywarning1 != null){

@@ -65,7 +65,7 @@ public class Reviews {
 	
 	public int getNewReviewId() throws Exception{
 		int newId = 0;
-		PreparedStatement getMaxId = getConnection().prepareStatement("select max(id)+1 from Review");
+		PreparedStatement getMaxId = getConnection().prepareStatement("select if(max(id)+1 is null, 1, max(id) + 1) from Review");
 		Utils.printDatabaseWarning(getMaxId.getWarnings());
 		try {
 			ResultSet rs = getMaxId.executeQuery();
