@@ -112,7 +112,7 @@ public class RegisteredUser extends User {
         PreparedStatement checkUser = conn.prepareStatement
         ("select username, email from RegisteredUser where username =? or email = ?");
         PreparedStatement createUser = conn.prepareStatement
-        ("insert into RegisteredUser(id,username,password,email,firstName,lastName) values(?,?,?,?,?)");
+        ("insert into RegisteredUser(id,username,password,email,firstName,lastName,hasAccess) values(?,?,?,?,?,?)");
         SQLWarning warning = checkUser.getWarnings();
         while(warning != null){
             System.out.println("Database warning: "+warning);
@@ -128,6 +128,7 @@ public class RegisteredUser extends User {
              createUser.setString(4,email);
              createUser.setString(5,firstname);
              createUser.setString(6,lastname);
+             createUser.setBoolean(7, true);
              createUser.executeUpdate();
              
             }

@@ -4,6 +4,8 @@ import utils.*;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.SQLWarning;
 
 public abstract class User {
 	private int id;
@@ -77,9 +79,22 @@ public abstract class User {
 		}
 	}
 	
-	public void updateUserComment() {
-		
+	public void updateUserComment(Connection conn, int commentId, String newComment)throws Exception {
+		PreparedStatement updateComment = conn.prepareStatement("update Comment set commentText = ? where id = ?");
+		Utils.printDatabaseWarning(updateComment.getWarnings());
+		try{
+			updateComment.setString(1, newComment);
+			updateComment.setInt(2, commentId);
+			int updateCount = updateComment.executeUpdate();
+			Utils.printDatabaseWarning(updateComment.getWarnings());
+			if(updateCount!=1){
+				throw new Exception("No records to be updated");
+			}
+		} finally  {
+			updateComment.close();
+		}
 	}
+	
 	
 	public void deleteUserReview(Connection conn, int eventId, int reviewId) throws Exception {
 		PreparedStatement deleteComment = conn.prepareStatement("delete from UserReview where "
@@ -138,8 +153,40 @@ public abstract class User {
 		}
 	}
 	
-	public void updateUserReview() {
-		
+	/**
+	 * 
+	 * @param rev_id: id of the review whose description has to be changed
+	 * @param conn: Connection to the database
+	 * @throws Exception 
+	 */
+	public void updateUserReview(int rev_id, Connection conn, String desc) throws Exception {
+		try {
+
+			PreparedStatement updateReview = conn.prepareStatement("Update Review set description = ? "
+					+"  where rev_id = ? ");
+			
+			
+			SQLWarning warnings;
+			warnings = updateReview.getWarnings();
+			while(warnings!=null){
+				System.err.println("Database Warnings! "+warnings);
+			}
+			updateReview.setString(1, desc);
+			updateReview.setInt(2, rev_id);
+	
+			int updateCount = updateReview.executeUpdate();
+			SQLWarning updateRev;
+			updateRev= updateReview.getWarnings();
+			while(updateRev!=null){
+				System.err.println("Database Warnings! "+updateRev);
+			}
+			
+			if(updateCount!=1){
+				throw new Exception("No review with the id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

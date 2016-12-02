@@ -49,6 +49,7 @@
           <!-- LINK TO REMOVE -->
             <li><a href="./index.jsp" style="color: #385185;">Home</a></li>
             <li class="active" style="color: #385185;"><a href="./profile.jsp">Profile</a></li>
+            <li><a href="./addEvent.html" style="color: #385185;">Add Event</a></li>
             <li><a href="./login.jsp" style="color: #385185;">Sign In</a></li>
             <li><a href="./register.jsp" style="color: #385185;">Register</a></li>
           </ul>
