@@ -19,11 +19,9 @@
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 			RegisteredUser rs = new RegisteredUser();
-			RegisteredUser rs1 = rs.getUser(connection, username, password);
-			if (rs1 != null) {
-				if (rs1.getid() > 0) {
-					 response.sendRedirect("profile.jsp?userId="+rs1.getid());
-				} 
+			int userId = rs.getUserAuthentication(connection, username, password);
+			if (userId > 0) {
+				response.sendRedirect("profile.jsp?userId="+userId); 
 			} else {
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('User does not exist or incorrect password. Kindly verify!');");
@@ -127,3 +125,6 @@
     <script src="js/bootstrap.min.js"></script>
   </body>
 </html>
+<%
+connection.close();
+%>

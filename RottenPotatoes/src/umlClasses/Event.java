@@ -13,7 +13,7 @@ public class Event {
 	private int id;
 	private String name;
 	private String description;
-	private String calculatedRating;
+	private double calculatedRating;
 	private ArrayList<Comments> commentList = new ArrayList<Comments>();
 	private ArrayList<Reviews> reviewList = new ArrayList<Reviews>();
 	private Date startDate;
@@ -31,14 +31,14 @@ public class Event {
 	
 	public Event(Connection connection, int eventId) throws Exception {
 		this.connection = connection;
-		PreparedStatement getEvent = connection.prepareStatement("select * from Event "
-				+ "where id = ?");
+		PreparedStatement getEvent = connection.prepareStatement("select * from Event e "
+				+ "where e.id = ?");
 		Utils.printDatabaseWarning(getEvent.getWarnings());
-		PreparedStatement getComment = connection.prepareStatement("select comment, commentedOnBy from UserComment"
-				+ " where commentOn = ?");
+		PreparedStatement getComment = connection.prepareStatement("select uc.comment, uc.commentedOnBy from UserComment uc "
+				+ " where uc.commentOn = ?");
 		Utils.printDatabaseWarning(getComment.getWarnings());
-		PreparedStatement getReview = connection.prepareStatement("select reviewId, reviewedBy from UserReview"
-				+ " where reviews = ?");
+		PreparedStatement getReview = connection.prepareStatement("select ur.reviewId, ur.reviewedBy from UserReview ur"
+				+ " where ur.reviews = ?");
 		Utils.printDatabaseWarning(getReview.getWarnings());
 		try {
 			getEvent.setInt(1, eventId);
@@ -52,7 +52,7 @@ public class Event {
 					this.id = rsEvent.getInt(1);
 					this.name = rsEvent.getString(2);
 					this.description = rsEvent.getString(3);
-					this.calculatedRating = rsEvent.getString(4);
+					this.calculatedRating = rsEvent.getDouble(4);
 					this.startDate = rsEvent.getDate(5);
 					this.endDate = rsEvent.getDate(6);
 					this.showTime = rsEvent.getString(7);
@@ -109,11 +109,11 @@ public class Event {
 		this.description = description;
 	}
 
-	public String getCalculatedRating() {
+	public double getCalculatedRating() {
 		return calculatedRating;
 	}
 
-	public void setCalculatedRating(String calculatedRating) {
+	public void setCalculatedRating(double calculatedRating) {
 		this.calculatedRating = calculatedRating;
 	}
 
@@ -205,10 +205,43 @@ public class Event {
 		this.genreType = genreType;
 	}
 	
+	// Get the list according to user genre selection
+	public ArrayList<Event> getEventsForUser(Connection con, int userId) throws Exception {
+		ArrayList<Event> eventListUser = new ArrayList<Event>();
+		PreparedStatement getEvent = con.prepareStatement("select e.id, e.name, e.description, e.calculatedRating, e.type, e.genreType "
+				+ "from Event e where e.genreType in "
+				+ "(select ug.genre from UserGenre ug where ug.user = ?)");
+		Utils.printDatabaseWarning(getEvent.getWarnings());
+		try {
+			getEvent.setInt(1, userId);
+			ResultSet rs = getEvent.executeQuery();
+			Utils.printQueryWarning(getEvent.getWarnings());
+			if (!rs.next()) {
+				throw new Exception("No events exist");
+			} else {
+				rs.beforeFirst();
+				while(rs.next()) {
+					Event eve = new Event();
+					eve.setId(rs.getInt(1));
+					eve.setName(rs.getString(2));
+					eve.setDescription(rs.getString(3));
+					eve.setCalculatedRating(rs.getDouble(4));
+					eve.setType(EventType.valueOf(rs.getString(5)));
+					eve.setGenreType(GenreType.valueOf(rs.getString(6)));
+					eventListUser.add(eve);
+				}
+			}
+		} finally {
+			getEvent.close();
+		}
+		return eventListUser;
+	}
+	
+	//Gets the list of all existing events in the database
 	public ArrayList<Event> getExistingEvents(Connection con) throws Exception {
 		ArrayList<Event> eventList = new ArrayList<Event>();
-		PreparedStatement getEvents = con.prepareStatement("select id, name, description, type, genreType "
-				+ "from Event order by genreType");
+		PreparedStatement getEvents = con.prepareStatement("select e.id, e.name, e.description, e.type, e.genreType "
+				+ "from Event e order by genreType");
 		Utils.printDatabaseWarning(getEvents.getWarnings());
 		try {
 			ResultSet rsEvent = getEvents.executeQuery();
@@ -233,6 +266,7 @@ public class Event {
 		return eventList;
 	}
 	
+	// Updates the ticket count by reducing the number of tickets requested by user
 	public int updateAvailableTickets(int ticketCount) throws Exception {
 		int leftTickets = 0;
 		if (this.getAvailableTickets() >= ticketCount) {
@@ -256,4 +290,35 @@ public class Event {
 		System.out.println("Tickets left: " + leftTickets);
 		return leftTickets;
 	}
+	
+	// Get the list of events on the basis of ratings
+	public ArrayList<Event> getEventListByRating(Connection con) throws Exception {
+		ArrayList<Event> eventList = new ArrayList<Event>();
+		PreparedStatement getEvents = con.prepareStatement("select e.id, e.name, e.description, e.calculatedRating, e.type, "
+				+ "e.genreType from Event e where e.calculatedRating > 4.5 order by e.genreType");
+		Utils.printDatabaseWarning(getEvents.getWarnings());
+		try {
+			ResultSet rsEvent = getEvents.executeQuery();
+			Utils.printQueryWarning(getEvents.getWarnings());
+			if (!rsEvent.next()) {
+				throw new Exception("No events exist");
+			} else {
+				rsEvent.beforeFirst();
+				while(rsEvent.next()) {
+					Event e = new Event();
+					e.setId(rsEvent.getInt(1));
+					e.setName(rsEvent.getString(2));
+					e.setDescription(rsEvent.getString(3));
+					e.setCalculatedRating(rsEvent.getDouble(4));
+					e.setType(EventType.valueOf(rsEvent.getString(5)));
+					e.setGenreType(GenreType.valueOf(rsEvent.getString(6)));
+					eventList.add(e);
+				}
+			}
+		} finally {
+			getEvents.close();
+		}
+		return eventList;
+	}
+	
 }

@@ -169,7 +169,7 @@ public abstract class User {
 		try {
 
 			PreparedStatement updateReview = conn.prepareStatement("Update Review set description = ? "
-					+"  where rev_id = ? ");
+					+"  where id = ? ");
 			
 			
 			SQLWarning warnings;

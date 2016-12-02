@@ -28,6 +28,7 @@
 		if (request.getParameter("userId") != null) {
 			userId = Integer.parseInt(request.getParameter("userId"));
 		}
+		ArrayList<Event> recList = event.getEventsForUser(con, userId);
 	%>
 	
     <title>RottenPotatoes</title>
@@ -95,7 +96,6 @@
            <% } %>
            </div>
           <!-- Movie List column closing -->
-
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <div class="panel panel-primary" >
                 <div class="panel-heading" style="background-color: #E86834;">
@@ -103,18 +103,14 @@
                 </div>
                 <div class="panel-body">
                   <ul class="list-group">
+                  <%
+                   	for (Event rev : recList) {
+                  %>
                     <li class="list-group-item">
-                      <span class="badge">3.5</span>
-                      A Christmas Carol
+                      <span class="badge"><%=rev.getCalculatedRating()%></span>
+                      <a href='eventPage.jsp?eventId=<%=rev.getId()%>&userId=<%=userId%>'><%=rev.getName()%></a>
                     </li>
-                    <li class="list-group-item">
-                      <span class="badge">4</span>
-                      A Christmas Carol II
-                    </li>
-                    <li class="list-group-item">
-                      <span class="badge">2</span>
-                      A Christmas Carol III
-                    </li>
+                    <% } %> 
                   </ul>
                 </div>
               </div>
@@ -146,3 +142,7 @@
     <script src="js/bootstrap.min.js"></script>
   </body>
 </html>
+
+<%
+con.close();
+%>

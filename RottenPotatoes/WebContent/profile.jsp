@@ -37,14 +37,7 @@
 		if(request.getParameter("userId")!=null) {
 			userId = Integer.parseInt(request.getParameter("userId"));
 		}
-		RegisteredUser rs = new RegisteredUser(); 
-		RegisteredUser rs1 = rs.getUserById(connection, userId);
-		if (rs1 == null) {
-			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Error in retrieving values of the user.');");
-			out.println("location='login.jsp';");
-			out.println("</script>");
-		}
+		RegisteredUser rs1 = new RegisteredUser(connection, userId); 
 		
 	%>
 
@@ -145,3 +138,6 @@
     <script src="js/bootstrap.min.js"></script>
   </body>
 </html>
+<%
+connection.close();
+%>
