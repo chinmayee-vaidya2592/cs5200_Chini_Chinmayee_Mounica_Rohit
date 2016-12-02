@@ -18,7 +18,7 @@ import java.sql.SQLWarning;
  *
  * @author mounica
  */
-public class RegisteredUser {
+public class RegisteredUser extends User {
     
     private int id;
     private String username;
@@ -52,12 +52,13 @@ public class RegisteredUser {
         this.email = e;
     }
     
-    public String getpassword(){
-        return username;
-    }
-    public void setpassword(String p){
-        this.password = p;
-    }
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
     
     
     public Boolean get_access(){
@@ -93,8 +94,8 @@ public class RegisteredUser {
     public void setlname(String lname){
         this.lastName = lname;
     }
-    public RegisteredUser(){
-        
+    public RegisteredUser(int id){
+        super(id);
     }
     
     public void createUser(Connection con, String username,String password, 
@@ -159,7 +160,7 @@ public class RegisteredUser {
                 userid = rs.getInt(1);
                 this.id = userid;
                 this.username = rs.getString(2);
-                this.password = rs.getString(3);
+                this.setPassword(rs.getString(3));
                 this.email = rs.getString(4);
                 this.has_access = rs.getBoolean(5);
                 this.firstName = rs.getString(6);
