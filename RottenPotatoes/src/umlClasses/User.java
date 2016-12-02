@@ -79,9 +79,22 @@ public abstract class User {
 		}
 	}
 	
-	public void updateUserComment() {
-		
+	public void updateUserComment(Connection conn, int commentId, String newComment)throws Exception {
+		PreparedStatement updateComment = conn.prepareStatement("update Comment set commentText = ? where id = ?");
+		Utils.printDatabaseWarning(updateComment.getWarnings());
+		try{
+			updateComment.setString(1, newComment);
+			updateComment.setInt(2, commentId);
+			int updateCount = updateComment.executeUpdate();
+			Utils.printDatabaseWarning(updateComment.getWarnings());
+			if(updateCount!=1){
+				throw new Exception("No records to be updated");
+			}
+		} finally  {
+			updateComment.close();
+		}
 	}
+	
 	
 	public void deleteUserReview(Connection conn, int eventId, int reviewId) throws Exception {
 		PreparedStatement deleteComment = conn.prepareStatement("delete from UserReview where "

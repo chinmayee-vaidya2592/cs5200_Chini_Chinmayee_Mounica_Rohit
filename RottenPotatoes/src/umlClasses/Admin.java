@@ -30,7 +30,7 @@ public class Admin extends RegisteredUser{
 				System.err.println("Database Warnings! "+warnings);
 			}
 			userInsert.setString(1, user.getusername());
-			userInsert.setString(2, user.getpassword());
+			userInsert.setString(2, user.getPassword());
 			userInsert.setString(3, user.getemail());
 			userInsert.setString(4, "FirstName Attribute Name");
 			userInsert.setString(5, "LastName Attribute Name");
