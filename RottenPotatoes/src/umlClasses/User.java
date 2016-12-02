@@ -4,6 +4,8 @@ import utils.*;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.SQLWarning;
 
 public abstract class User {
 	private int id;
@@ -138,8 +140,40 @@ public abstract class User {
 		}
 	}
 	
-	public void updateUserReview() {
-		
+	/**
+	 * 
+	 * @param rev_id: id of the review whose description has to be changed
+	 * @param conn: Connection to the database
+	 * @throws Exception 
+	 */
+	public void updateUserReview(int rev_id, Connection conn, String desc) throws Exception {
+		try {
+
+			PreparedStatement updateReview = conn.prepareStatement("Update Review set description = ? "
+					+"  where rev_id = ? ");
+			
+			
+			SQLWarning warnings;
+			warnings = updateReview.getWarnings();
+			while(warnings!=null){
+				System.err.println("Database Warnings! "+warnings);
+			}
+			updateReview.setString(1, desc);
+			updateReview.setInt(2, rev_id);
+	
+			int updateCount = updateReview.executeUpdate();
+			SQLWarning updateRev;
+			updateRev= updateReview.getWarnings();
+			while(updateRev!=null){
+				System.err.println("Database Warnings! "+updateRev);
+			}
+			
+			if(updateCount!=1){
+				throw new Exception("No apartment has that id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
