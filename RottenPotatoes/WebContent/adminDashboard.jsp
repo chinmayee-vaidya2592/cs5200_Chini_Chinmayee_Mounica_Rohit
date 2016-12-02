@@ -3,6 +3,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="umlClasses.Event"%>
 <%@page import="umlClasses.RegisteredUser" %>
+<%@page import="umlClasses.Admin" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -17,23 +18,17 @@
 
 	<%
 		Connection con = GetConnection.getConnection();
-		Event event = new Event();
-		ArrayList<Event> eventList = event.getExistingEvents(con);
-		if (eventList == null) {
+		RegisteredUser rs = new RegisteredUser();
+		Admin a = new Admin(rs.getId());
+		ArrayList<RegisteredUser> userList = a.getAllUsers(con);
+		ArrayList<Event> eventList = a.getAllEvents(con);
+		if (userList == null) {
 			out.println("<script type=\"text/javascript\">");
 			out.println("alert('No events to display!');");
 			out.println("location='adminDashboard.jsp';");
 			out.println("</script>");
 		}
-		RegisteredUser rs = new RegisteredUser(); 
-		ArrayList<RegisteredUser> userList = rs.getExistingUsers(con);
-		if (userList == null){
-			out.println("<script type=\"text/javascript\">");
-			out.println("alert('No users to display!');");
-			out.println("location='adminDashboard.jsp';");
-			out.println("</script>");
-		}
-		
+	
 	%>
 	
     <title>RottenPotatoes</title>
@@ -105,8 +100,22 @@
 						      <td><%= u.getusername() %></td>
 						      <td><%= u.getemail() %></td>
 						      <td>
-						      	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                    			<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+						      	<div class="btn-group">
+						      		<a href="editUser.jsp?userId=<%= u.getId() %>" >
+						      			<span class="btn btn-warning glyphicon glyphicon-pencil"></span>
+						      		</a>
+						      	</div>
+                    			<div class="btn-group">
+                    				<a href="#" class="btn btn-danger dropdown-toggle glyphicon glyphicon-trash" 
+                    							data-toggle="dropdown" 
+                    							aria-expanded="false">
+                    					<span class="glyphicon glyphicon-triangle-bottom"></span>			
+                 					</a>
+									  <ul class="dropdown-menu">
+									    <li><a href="#">Delete</a></li>
+									    <li><a href="#">Cancel</a></li>
+									  </ul>	
+								</div>
 						      </td>
 						    </tr>
 						  </tbody>
@@ -127,13 +136,27 @@
 						  <tbody>
 						    <tr>
 						      <td>
-						      	<a href='eventPage.jsp?eventId=<%=e.getId()%>'><%=e.getId()%></a>
+						      	<a href='eventPage.jsp?eventId=<%= e.getId() %>'><%= e.getId() %></a>
 						      </td>
 						      <td><%=e.getName()%></td>
 						      <td><%=e.getDescription()%></td>
 						      <td>
-						      	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                    			<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+						      	<div class="btn-group">
+						      		<a href="editEvent.jsp?eventId=<%= e.getId() %>" >
+						      			<span class="btn btn-warning glyphicon glyphicon-pencil"></span>
+						      		</a>
+						      	</div>
+                    			<div class="btn-group">
+                    				<a href="#" class="btn btn-danger dropdown-toggle glyphicon glyphicon-trash" 
+                    							data-toggle="dropdown" 
+                    							aria-expanded="false">
+                    					<span class="glyphicon glyphicon-triangle-bottom"></span>			
+                 					</a>
+									  <ul class="dropdown-menu">
+									    <li><a href="#">Delete</a></li>
+									    <li><a href="#">Cancel</a></li>
+									  </ul>	
+								</div>
 						      </td>
 						    </tr>
 						  </tbody>
