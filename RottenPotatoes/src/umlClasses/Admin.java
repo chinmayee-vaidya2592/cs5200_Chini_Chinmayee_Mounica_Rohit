@@ -232,8 +232,8 @@ public class Admin extends RegisteredUser{
 		}
 	}
 	
-	public List<RegisteredUser> getAllUsers(Connection conn) throws SQLException{
-		List<RegisteredUser> users = new ArrayList<RegisteredUser>();
+	public ArrayList<RegisteredUser> getAllUsers(Connection conn) throws SQLException{
+		ArrayList<RegisteredUser> users = new ArrayList<RegisteredUser>();
 		PreparedStatement ps = conn.prepareStatement("select * from RegisteredUser");
 		SQLWarning warnings;
 		warnings =ps.getWarnings();
@@ -256,8 +256,8 @@ public class Admin extends RegisteredUser{
 		return users;
 	}
 	
-	public List<Event> getAllEvents(Connection conn){
-		List<Event> events = new ArrayList<Event>();
+	public ArrayList<Event> getAllEvents(Connection conn){
+		ArrayList<Event> events = new ArrayList<Event>();
 		try {
 			PreparedStatement ps = conn.prepareStatement("select * from Event");
 			SQLWarning warnings;

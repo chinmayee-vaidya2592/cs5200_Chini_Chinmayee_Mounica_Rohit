@@ -89,6 +89,32 @@
                     </div>
                   </div>
                   <div class="form-group">
+                  <div class="row">
+                  	<span class="col-lg-2 col-md-2"></span>
+                  	<h6 class="col-lg-10 col-md-10">
+                  		Choose you favorite genres for specially curated recommendations
+                  	</h6>
+                  	</div>
+                  	<div class="checkbox">
+                  	<span class="col-lg-2 col-md-2"></span>
+			          <label for="genreSelection" class="col-lg-2 control-label">
+			            <input type="checkbox">Horror
+			          </label>
+			          <label for="genreSelection" class="col-lg-2 control-label">
+			            <input type="checkbox">Thriller
+			          </label>
+			          <label for="genreSelection" class="col-lg-2 control-label">
+			            <input type="checkbox">History
+			          </label>
+			          <label for="genreSelection" class="col-lg-2 control-label">
+			            <input type="checkbox">Drama
+			          </label>
+			          <label for="genreSelection" class="col-lg-2 control-label">
+			            <input type="checkbox">Comedy
+			          </label>
+			        </div>
+                  </div>
+                  <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
                       <button type="submit" class="btn btn-primary">Sign In</button>
                     </div>

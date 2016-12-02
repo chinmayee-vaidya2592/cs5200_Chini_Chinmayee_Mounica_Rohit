@@ -424,6 +424,34 @@ public class RegisteredUser extends User {
 		return r;
 	}
     
+    public ArrayList<RegisteredUser> getExistingUsers(Connection con) throws Exception {
+		ArrayList<RegisteredUser> userList = new ArrayList<RegisteredUser>();
+		PreparedStatement getRegisteredUsers = con.prepareStatement("select username,password,email,hasAccess,firstName,lastName "
+				+ "from RegisteredUser");
+		Utils.printDatabaseWarning(getRegisteredUsers.getWarnings());
+		try {
+			ResultSet rsUser = getRegisteredUsers.executeQuery();
+			Utils.printQueryWarning(getRegisteredUsers.getWarnings());
+			if (!rsUser.next()) {
+				throw new Exception("No events exist");
+			} else {
+				rsUser.beforeFirst();
+				while(rsUser.next()) {
+					RegisteredUser rs = new RegisteredUser();
+//					rs.setId(rsUser.getInt(1));
+					rs.setusername(rsUser.getString(1));
+					rs.setemail(rsUser.getString(2));
+					rs.setPassword(rsUser.getString(3));
+					rs.set_Access(rsUser.getBoolean(6));
+					userList.add(rs);
+				}
+			}
+		} finally {
+			getRegisteredUsers.close();
+		}
+		return userList;
+	}
+    
     public String getUserNameById(Connection con, int userId) throws Exception {
     	String name = "";
     	PreparedStatement getName = con.prepareStatement("select username from RegisteredUser where id = ?");
