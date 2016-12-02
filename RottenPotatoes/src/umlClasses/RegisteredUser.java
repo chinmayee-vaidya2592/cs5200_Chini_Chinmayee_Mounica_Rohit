@@ -130,13 +130,7 @@ public class RegisteredUser extends User {
         super(id);
     }
     
-<<<<<<< Updated upstream
     public RegisteredUser createUser(Connection con, String username,String password, 
-=======
-    
-
-	public void createUser(Connection con, String username,String password, 
->>>>>>> Stashed changes
             String email, String firstname, String lastname)throws SQLException{
     	RegisteredUser r = null;
         this.conn = con;
