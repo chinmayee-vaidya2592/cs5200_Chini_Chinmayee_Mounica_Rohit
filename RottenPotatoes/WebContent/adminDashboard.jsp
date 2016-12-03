@@ -112,7 +112,7 @@
                     					<span class="glyphicon glyphicon-triangle-bottom"></span>			
                  					</a>
 									  <ul class="dropdown-menu">
-									    <li><a href="#">Delete</a></li>
+									    <li><a>Delete</a></li>
 									    <li><a href="#">Cancel</a></li>
 									  </ul>	
 								</div>
