@@ -54,8 +54,10 @@ public abstract class User {
 		}	
 	}
 	
-	public void insertUserComment(Connection conn, Comments comments, int eventId) throws Exception {
+	public Comments insertUserComment(Connection conn, Comments comments, int eventId) throws Exception {
 		int newCommentId = comments.getNewCommentId();
+		comments.setId(newCommentId);
+		System.out.println("New ID: "+ newCommentId);
 		PreparedStatement insertCommentText = conn.prepareStatement("insert into Comment "
 				+ "values (?, ?, ?)");
 		Utils.printDatabaseWarning(insertCommentText.getWarnings());
@@ -83,6 +85,7 @@ public abstract class User {
 			insertCommentText.close();
 			insertComment.close();
 		}
+		return comments;
 	}
 	
 	public void updateUserComment(Connection conn, int commentId, String newComment)throws Exception {
@@ -130,10 +133,11 @@ public abstract class User {
 		}
 	}
 	
-	public void insertUserReview(Connection conn, Reviews reviews, int eventId) throws Exception {
+	public Reviews insertUserReview(Connection conn, Reviews reviews, int eventId) throws Exception {
 		int newReviewId = reviews.getNewReviewId();
+		reviews.setId(newReviewId);
 		PreparedStatement insertReviewText = conn.prepareStatement("insert into Review "
-				+ "values (?, ?, ?)");
+				+ "values (?, ?, ?, ?)");
 		Utils.printDatabaseWarning(insertReviewText.getWarnings());
 		PreparedStatement insertReview = conn.prepareStatement("insert into UserReview"
 				+ " values (?, ?, ?)");
@@ -142,6 +146,7 @@ public abstract class User {
 			insertReviewText.setInt(1, newReviewId);
 			insertReviewText.setString(2, reviews.getDescription());
 			insertReviewText.setDouble(3, reviews.getRating());
+			insertReviewText.setDate(4, (Date) reviews.getDate());
 			int insertCount1 = insertReviewText.executeUpdate();
 			if (insertCount1 != 1) {
 				throw new Exception("Error inserting records!");
@@ -157,6 +162,7 @@ public abstract class User {
 			insertReviewText.close();
 			insertReview.close();
 		}
+		return reviews;
 	}
 	
 	/**

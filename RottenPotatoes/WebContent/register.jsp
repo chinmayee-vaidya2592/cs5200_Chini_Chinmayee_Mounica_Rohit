@@ -9,6 +9,22 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+	<%
+		//register.jsp?firstName=Chini&lastName=Sinha&userName=csinha&email=chinisinha%40gmail.com&password=chini&Horror=on&Thriller=on&History=on
+		if (request.getParameter("firstName") != null &&
+			request.getParameter("lastName") != null && 
+			request.getParameter("userName") != null &&
+			request.getParameter("email") != null &&
+			request.getParameter("password") != null) {
+			String firstName = request.getParameter("firstName");
+			String lastName = request.getParameter("lastName");
+			String userName = request.getParameter("userName");
+			String email = request.getParameter("email");
+			String password = request.getParameter("password");
+			
+		}
+	%>
+	
     <title>RottenPotatoes</title>
 
     <!-- Bootstrap core CSS -->
@@ -42,8 +58,6 @@
         <div id="navbar" class="collapse navbar-collapse pull-right">
           <ul class="nav navbar-nav">
             <li><a href="./index.jsp" style="color: #385185;">Home</a></li>
-            <li><a href="./profile.jsp" style="color: #385185;">Profile</a></li>
-            <li><a href="./addEvent.jsp" style="color: #385185;">Add Event</a></li>
             <li><a href="./login.jsp" style="color: #385185;">Sign In</a></li>
             <li class="active" href="./register.jsp" style="color: #385185;"><a>Register</a></li>
           </ul>
@@ -61,31 +75,31 @@
                   <div class="form-group">
                     <label for="inputFirstName" class="col-lg-2 control-label">First Name</label>
                     <div class="col-lg-10">
-                      <input type="text" class="form-control" id="inputFirstName" placeholder="First Name">
+                      <input type="text" class="form-control" id="inputFirstName" placeholder="First Name" name="firstName">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputLastName" class="col-lg-2 control-label">Last Name</label>
                     <div class="col-lg-10">
-                      <input type="text" class="form-control" id="inputLastName" placeholder="Last Name">
+                      <input type="text" class="form-control" id="inputLastName" placeholder="Last Name" name="lastName">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputUsername" class="col-lg-2 control-label">Username</label>
                     <div class="col-lg-10">
-                      <input type="text" class="form-control" id="inputUsername" placeholder="Username">
+                      <input type="text" class="form-control" id="inputUsername" placeholder="Username" name="userName">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputEmail" class="col-lg-2 control-label">Email</label>
                     <div class="col-lg-10">
-                      <input type="text" class="form-control" id="inputEmail" placeholder="Email">
+                      <input type="text" class="form-control" id="inputEmail" placeholder="Email" name="email">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputPassword" class="col-lg-2 control-label">Password</label>
                     <div class="col-lg-10">
-                      <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                      <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password">
                     </div>
                   </div>
                   <div class="form-group">
@@ -98,19 +112,19 @@
                   	<div class="checkbox">
                   	<span class="col-lg-2 col-md-2"></span>
 			          <label for="genreSelection" class="col-lg-2 control-label">
-			            <input type="checkbox">Horror
+			            <input type="checkbox" name="Horror">Horror
 			          </label>
 			          <label for="genreSelection" class="col-lg-2 control-label">
-			            <input type="checkbox">Thriller
+			            <input type="checkbox" name="Thriller">Thriller
 			          </label>
 			          <label for="genreSelection" class="col-lg-2 control-label">
-			            <input type="checkbox">History
+			            <input type="checkbox" name="History">History
 			          </label>
 			          <label for="genreSelection" class="col-lg-2 control-label">
-			            <input type="checkbox">Drama
+			            <input type="checkbox" name="Drama">Drama
 			          </label>
 			          <label for="genreSelection" class="col-lg-2 control-label">
-			            <input type="checkbox">Comedy
+			            <input type="checkbox" name="Comedy">Comedy
 			          </label>
 			        </div>
                   </div>

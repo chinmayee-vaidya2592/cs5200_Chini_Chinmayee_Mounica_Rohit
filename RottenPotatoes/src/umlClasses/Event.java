@@ -65,26 +65,16 @@ public class Event {
 			getComment.setInt(1, eventId);
 			ResultSet rsComment = getComment.executeQuery();
 			Utils.printQueryWarning(getComment.getWarnings());
-			if (!rsComment.next()) {
-				throw new Exception("No comments found!");
-			} else {
-				rsComment.beforeFirst();
-				while (rsComment.next()) {
-					Comments c = new Comments(connection, rsComment.getInt(1), rsComment.getInt(2));
-					this.commentList.add(c);
-				}
+			while (rsComment.next()) {
+				Comments c = new Comments(connection, rsComment.getInt(1), rsComment.getInt(2));
+				this.commentList.add(c);
 			}
 			getReview.setInt(1, eventId);
 			ResultSet rsReview = getReview.executeQuery();
 			Utils.printQueryWarning(getReview.getWarnings());
-			if (!rsReview.next()) {
-				throw new Exception("No reviews found!");
-			} else {
-				rsReview.beforeFirst();
-				while (rsReview.next()) {
-					Reviews r = new Reviews(connection, rsReview.getInt(1), rsReview.getInt(2));
-					this.reviewList.add(r);
-				}
+			while (rsReview.next()) {
+				Reviews r = new Reviews(connection, rsReview.getInt(1), rsReview.getInt(2));
+				this.reviewList.add(r);
 			}
 		} finally {
 			getEvent.close();

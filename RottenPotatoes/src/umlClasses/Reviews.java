@@ -134,4 +134,33 @@ public class Reviews {
     	}
     	return name;
     }
+	
+	public double updateCalulatedRating(int eventId) throws Exception {
+		double rating = this.getRating();
+		PreparedStatement getNewRating = getConnection().prepareStatement("select avg(rating) from review r "
+				+ "where exists (select * from UserReview ur "
+				+ "where ur.reviews = ? and ur.reviewId = r.id)");
+		Utils.printDatabaseWarning(getNewRating.getWarnings());
+		PreparedStatement updateEvent = getConnection().prepareStatement("update Event "
+				+ "set calculatedRating = ? where id = ?");
+		Utils.printDatabaseWarning(updateEvent.getWarnings());
+		try {
+			getNewRating.setInt(1, eventId);
+			ResultSet rsNewRating = getNewRating.executeQuery();
+			Utils.printQueryWarning(getNewRating.getWarnings());
+			if (rsNewRating.next()) {
+				rating = rsNewRating.getDouble(1);
+			}
+			updateEvent.setDouble(1, rating);
+			updateEvent.setInt(2, eventId);
+			int updateCount = updateEvent.executeUpdate();
+			if (updateCount != 1) {
+				throw new Exception("Error updating records!");
+			}
+		} finally {
+			getNewRating.close();
+			updateEvent.close();
+		}
+		return rating;
+	}
 }

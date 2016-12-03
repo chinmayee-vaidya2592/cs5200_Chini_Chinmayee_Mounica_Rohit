@@ -34,6 +34,7 @@ public class RegisteredUser extends User {
     private Connection conn;
     
     public RegisteredUser(Connection con, int userId) throws Exception {
+    	super(userId);
     	this.conn = con;
     	this.id = userId;
     	PreparedStatement getUser = con.prepareStatement("select * from RegisteredUser ru where ru.id = ?");
@@ -195,6 +196,7 @@ public class RegisteredUser extends User {
             if(rs.next()){
                 throw new Exception("User exists with the same username or email");
             }else{
+             int userid = getNewUserId(con);
              r = new RegisteredUser();  
              createUser.setString(2,username);
              createUser.setString(3, password);
@@ -203,7 +205,7 @@ public class RegisteredUser extends User {
              createUser.setString(6,lastname);
              createUser.setBoolean(7, true);
              createUser.executeUpdate();
-             int userid = getNewUserId(con);
+             
              r.setid(userid);
              r.setusername(username);
              r.setPassword(password);

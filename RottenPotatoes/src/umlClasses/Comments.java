@@ -20,6 +20,13 @@ public class Comments {
 		super();
 	}
 	
+	public Comments(int id, int userId, String commentText, Date date) {
+		this.id = id;
+		this.userId = userId;
+		this.commentText = commentText;
+		this.date = date;
+	}
+	
 	public Comments(Connection conn, int id, int userId) throws Exception {
 		this.connection = conn;
 		this.userId = userId;
@@ -90,7 +97,7 @@ public class Comments {
 	
 	public int getNewCommentId() throws Exception{
 		int newId = 0;
-		PreparedStatement getMaxId = getConnection().prepareStatement("select if(max(id)+1 is null, 1, max(id) + 1) from Review");
+		PreparedStatement getMaxId = getConnection().prepareStatement("select if(max(id)+1 is null, 1, max(id) + 1) from Comment");
 		Utils.printDatabaseWarning(getMaxId.getWarnings());
 		try {
 			ResultSet rs = getMaxId.executeQuery();

@@ -64,7 +64,7 @@
         <div id="navbar" class="collapse navbar-collapse pull-right">
           <ul class="nav navbar-nav">
             <li class="active" style="color: #385185;"><a href="./Home.jsp">Home</a></li>
-            <li><a href="./profile.jsp" style="color: #385185;">Profile</a></li>
+            <li><a href="./profile.jsp?userId=<%= userId %>" style="color: #385185;">Profile</a></li>
             <li><a href="./addEvent.jsp" style="color: #385185;">Add Event</a></li>
             <li><a href="./index.jsp" style="color: #385185;">Logout</a></li>
           </ul>

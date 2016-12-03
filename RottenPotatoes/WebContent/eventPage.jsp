@@ -1,8 +1,10 @@
+<%@page import="java.sql.Date"%>
+<%@page import="umlClasses.User"%>
+<%@page import="umlClasses.RegisteredUser"%>
 <%@page import="umlClasses.Ticket"%>
 <%@page import="utils.Utils"%>
 <%@page import="umlClasses.Reviews"%>
 <%@page import="umlClasses.Comments"%>
-<%@page import="java.util.Date"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="umlClasses.Event"%>
 <%@page import="java.sql.Connection"%>
@@ -199,13 +201,31 @@
       <hr>
         <div class="row">
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-          <% if (userId > 0) { %>
+          <% 
+          	if (userId > 0) {
+          		String commentText = "";
+          		if (request.getParameter("addComment") != null) {
+          			commentText = request.getParameter("addComment");
+          			Comments c = new Comments();
+          			c.setCommentText(commentText);
+          			java.util.Date date = new java.util.Date();
+          			Date d = new Date(date.getTime());
+          			c.setDate(d);
+          			c.setUserId(userId);
+          			c.setConnection(con);
+          			User rs = new RegisteredUser(con, userId);
+      				c = rs.insertUserComment(con, c, eventId);
+      				event.getCommentList().add(c);
+          		}
+          %>
               <div class="panel panel-primary">
                 <div class="panel-heading">Add a comment</div>
                 <div class="panel-body">
                   <form class="form-horizontal">
                     <fieldset>
                       <div class="form-group">
+                       <input type="hidden" name="eventId" value="<%= eventId %>" />
+                       <input type="hidden" name="userId" value="<%= userId %>" />
                         <label for="addComment" class="col-lg-2 control-label" style="color: #000;">Comment</label>
                         <div class="col-lg-10">
                           <textarea name="addComment" class="form-control" rows="3" id="addComment" placeholder="Write your comment"></textarea>
@@ -237,7 +257,28 @@
           </div> <!-- Movie List column closing -->
 
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-			<% if (userId > 0) { %>
+			<% 
+				if (userId > 0) { 
+					String reviewText = "";
+					double rating;
+	          		if (request.getParameter("addReview") != null && request.getParameter("rating") != null) {
+	          			reviewText = request.getParameter("addReview");
+	          			rating = Double.parseDouble(request.getParameter("rating"));
+	          			Reviews r = new Reviews();
+	          			r.setConnection(con);
+	          			r.setUserId(userId);
+	          			r.setDescription(reviewText);
+	          			r.setRating(rating);
+	          			java.util.Date date = new java.util.Date();
+	          			Date d = new Date(date.getTime());
+	          			r.setDate(d);
+	          			User rs = new RegisteredUser(con, userId);
+	      				r = rs.insertUserReview(con, r, eventId);
+	      				event.getReviewList().add(r);
+	      				double newRate = (double) Math.round((r.updateCalulatedRating(eventId))*100) / 100;
+	      				event.setCalculatedRating(newRate);
+	          		}
+			%>
             <div class="panel panel-primary">
                 <div class="panel-heading">Add a Review</div>
                   <div class="panel-body">
@@ -246,7 +287,7 @@
                         <div class="form-group">
                           <label for="select" class="col-lg-2 control-label" style="color: #000;">Rating</label>
                           <div class="col-lg-10">
-                            <select class="form-control" id="select">
+                            <select class="form-control" id="select" name="rating" >
                               <option>1</option>
                               <option>1.5</option>
                               <option>2</option>
@@ -261,6 +302,8 @@
                           </div>
                         </div>
                         <div class="form-group">
+                        <input type="hidden" name="eventId" value="<%= eventId %>" />
+                        <input type="hidden" name="userId" value="<%= userId %>" />
                           <label for="addReview" class="col-lg-2 control-label" style="color: #000;">Review</label>
                           <div class="col-lg-10">
                             <textarea name="addReview" class="form-control" rows="3" id="addReview" placeholder="Write your review here"></textarea>
