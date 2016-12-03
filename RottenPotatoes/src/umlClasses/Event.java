@@ -194,6 +194,86 @@ public class Event {
 	public void setGenreType(GenreType genreType) {
 		this.genreType = genreType;
 	}
+	 
+	
+	public int createEvent(String name, String description, double calculatedRating, 
+			Date startDate, Date endDate, String showTime, EventType type, 
+			int availableTickets, int ticketPrice, GenreType genreType) throws Exception{
+		int eventId = getNewEventId();
+		PreparedStatement ps = getConnection().prepareStatement("insert into Event values (?,?,?,?,?,?,?,?,?,?,?)");
+		Utils.printDatabaseWarning(ps.getWarnings());
+		try {
+			ps.setInt(1, eventId);
+			ps.setString(2, name);
+			ps.setString(3, description);
+			ps.setDouble(4, calculatedRating);
+			ps.setDate(5, (java.sql.Date) startDate);
+			ps.setDate(6, (java.sql.Date) startDate);
+			ps.setString(7, showTime);
+			ps.setString(8, type.toString());
+			ps.setInt(9, availableTickets);
+			ps.setInt(10, ticketPrice);
+			ps.setString(11, genreType.toString());
+			int insertCount = ps.executeUpdate();
+			Utils.printInsertWarning(ps.getWarnings());
+			if (insertCount != 1) {
+				throw new Exception("Error in inserting");
+			}
+		} finally {
+			ps.close();
+		}
+		return eventId;
+	}
+	
+	public void updateEvent(String name, String description, double calculatedRating, 
+			Date startDate, Date endDate, String showTime, EventType type, 
+			int availableTickets, int ticketPrice, GenreType genreType, int eventId) throws Exception{
+		PreparedStatement ps = getConnection().prepareStatement("UPDATE Event SET name = ?, "
+				+ "description = ?, calculatedRating = ?, startDate = ?, endDate = ?, "
+				+ "showTime = ?, type = ?, availableTickets = ?, ticketPrice = ?, genreType = ? "
+				+ "WHERE id = ?");
+		Utils.printDatabaseWarning(ps.getWarnings());
+		try {
+			java.sql.Date start =  new java.sql.Date(startDate.getTime());
+			java.sql.Date end =  new java.sql.Date(endDate.getTime());
+			ps.setString(1, name);
+			ps.setString(2, description);
+			ps.setDouble(3, calculatedRating);
+			ps.setDate(4, start);
+			ps.setDate(5, end);
+			ps.setString(6, showTime);
+			ps.setString(7, type.toString());
+			ps.setInt(8, availableTickets);
+			ps.setInt(9, ticketPrice);
+			ps.setString(10, genreType.toString());
+			ps.setInt(11, eventId);
+			int updateCount = ps.executeUpdate();
+			Utils.printUpdateWarning(ps.getWarnings());
+			if (updateCount != 1) {
+				throw new Exception("Error in updating");
+			}
+		} finally {
+			ps.close();
+		}
+	}
+	
+	public int getNewEventId() throws Exception{
+		int newId = 0;
+		PreparedStatement getMaxId = getConnection().prepareStatement("select if(max(id)+1 is null, 1, max(id) + 1) from Event");
+		Utils.printDatabaseWarning(getMaxId.getWarnings());
+		try {
+			ResultSet rs = getMaxId.executeQuery();
+			Utils.printQueryWarning(getMaxId.getWarnings());
+			if (rs.next()) {
+				newId = rs.getInt(1);
+			} else {
+				throw new Exception("Invalid id!");
+			}
+		} finally {
+			getMaxId.close();
+		}
+		return newId;
+	}
 	
 	// Get the list according to user genre selection
 	public ArrayList<Event> getEventsForUser(Connection con, int userId) throws Exception {
@@ -305,5 +385,6 @@ public class Event {
 		}
 		return eventList;
 	}
+	
 	
 }

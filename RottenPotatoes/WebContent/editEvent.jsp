@@ -1,3 +1,12 @@
+<%@page import="java.sql.Date"%>
+<%@page import="java.util.Locale"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="umlClasses.EventType"%>
+<%@page import="umlClasses.GenreType"%>
+<%@page import="umlClasses.Event"%>
+<%@page import="utils.GetConnection"%>
+<%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -9,6 +18,38 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
+    
+    <%
+     //editEvent.jsp?eventId=1
+     //eventId=1&name=Indian+Music+Show&desc=Indian+Musical+Show&optionsRadios=Drama&startDate=2016-11-02&endDate=2016-12-02&showTime=11%3A03+AM
+     Connection conn = GetConnection.getConnection();
+     int eventId = 0;
+     DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+     if (request.getParameter("eventId") != null) {
+    	 eventId = Integer.parseInt(request.getParameter("eventId"));
+     }
+     Event event = new Event(conn, eventId);
+     if (request.getParameter("name") != null && 
+    		 request.getParameter("desc") != null &&
+    		 request.getParameter("optionsRadios") != null &&
+    		 request.getParameter("startDate") != null &&
+    		 request.getParameter("endDate") != null &&
+    		 request.getParameter("showTime") != null && 
+    		 request.getParameter("cost") != null &&
+    		 request.getParameter("optionsRadios1") != null) {
+    	 java.util.Date date1 = format.parse(request.getParameter("startDate"));
+    	 java.util.Date date2 = format.parse(request.getParameter("endDate"));
+    	 event.updateEvent(request.getParameter("name"), request.getParameter("desc"), event.getCalculatedRating(),  date1, date2, 
+    			request.getParameter("showTime"), 
+    			EventType.valueOf(request.getParameter("optionsRadios1")), 
+    			event.getAvailableTickets(), 
+    			Integer.parseInt(request.getParameter("cost")), 
+    			GenreType.valueOf(request.getParameter("optionsRadios")),eventId) ;
+    	 response.sendRedirect("adminDashboard.jsp?userId=1");
+     }
+     
+     
+    %>
 
     <title>RottenPotatoes</title>
 
@@ -57,17 +98,17 @@
           <div class="panel-heading">Profile</div>
             <div class="panel-body">
               <form class="form-horizontal">
+              <input type="hidden" name="eventId" value="<%=eventId%>"/>
                 <fieldset>
                   <div class="form-group">
                     <label for="inputEventName" class="col-lg-2 control-label">Event Name</label>
-                    <div class="col-lg-10">
-                      <input type="text" class="form-control" id="inputEvent Name" placeholder="First Name">
+                      <input type="text" class="form-control" id="inputEvent Name" placeholder="First Name" value="<%=event.getName() %>" name="name">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputEventDescription" class="col-lg-2 control-label">Event Description</label>
                     <div class="col-lg-10">
-                      <textarea class="form-control" rows="3" id="inputEventDescription" placeholder="Event Description"></textarea>
+                      <textarea class="form-control" rows="3" id="inputEventDescription" placeholder="Event Description" name="desc" ><%=event.getDescription() %></textarea>
                       <span class="help-block">Enter a small synopsis of your event or give away the whole plot!</span>
                     </div>
                   </div>
@@ -76,31 +117,31 @@
                     <div class="col-lg-10">
                       <div class="radio">
                         <label>
-                          <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                          <input type="radio" name="optionsRadios" id="optionsRadios1" value="Horror" <% if (event.getGenreType().equals(GenreType.Horror)) { %> checked <% } %>>
                           Horror
                         </label>
                       </div>
                       <div class="radio">
                         <label>
-                          <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                          <input type="radio" name="optionsRadios" id="optionsRadios2" value="Thriller" <% if (event.getGenreType().equals(GenreType.Thriller)) { %> checked <% } %>>
                           Thriller
                         </label>
                       </div>
                       <div class="radio">
                         <label>
-                          <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                          <input type="radio" name="optionsRadios" id="optionsRadios2" value="History" <% if (event.getGenreType().equals(GenreType.History)) { %> checked <% } %>>
                           History
                         </label>
                       </div>
                       <div class="radio">
                         <label>
-                          <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                          <input type="radio" name="optionsRadios" id="optionsRadios2" value="Drama" <% if (event.getGenreType().equals(GenreType.Drama)) { %> checked <% } %>>
                           Drama
                         </label>
                       </div>
                       <div class="radio">
                         <label>
-                          <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                          <input type="radio" name="optionsRadios" id="optionsRadios2" value="Comedy" <% if (event.getGenreType().equals(GenreType.Comedy)) { %> checked <% } %>>
                           Comedy
                         </label>
                       </div>
@@ -110,7 +151,7 @@
                     <div class="form-group"> <!-- Date input -->
                       <label class="col-lg-2 col-md-2 col-sm-12 col-xs-12 control-label" for="date">Starting Date</label>
                       <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                      <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                      <input class="form-control" id="date"  placeholder="MM/DD/YYY" type="text" value="<%=event.getStartDate()%>" name="startDate"/>
                       </div>
                     </div>
                    <!-- Form code ends -->
@@ -118,20 +159,45 @@
                     <div class="form-group"> <!-- Date input -->
                       <label class="col-lg-2 col-md-2 col-sm-12 col-xs-12 control-label" for="date">Ending Date</label>
                       <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                      <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                      <input class="form-control" id="date"  placeholder="MM/DD/YYY" type="text" value="<%=event.getEndDate()%>" name="endDate"/>
                       </div>
                     </div>
                    <!-- Form code ends -->
                     <div class="input-group bootstrap-timepicker timepicker">
                         <label class="col-lg-3 col-md-2 col-sm-12 col-xs-12 control-label" for="date">Show Time</label>
                         <div class="col-lg-9 col-md-10 col-sm-12 col-xs-12">
-                          <input id="timepicker1" type="text" class="form-control input-small">
+                          <input id="timepicker1" type="text" class="form-control input-small" value="<%=event.getShowTime()%>" name="showTime">
                           <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                         </div>
                     </div>
+                    <div class="form-group">
+                    <label for="inputEventCost" class="col-lg-2 control-label">Event Cost</label>
+                    <div class="col-lg-10">
+                    	<span class="input-group-addon">$</span>
+                    	<input type="text" class="form-control" id="inputEventCost" placeholder="0.00" name = "cost" value="<%=event.getTicketPrice()%>">
+                    </div>
+                  </div>
+                    <div class="form-group">
+				      <label class="col-lg-2 control-label">Are you a viewer or an artist?</label>
+				      <div class="col-lg-10">
+				        <div class="radio">
+				          <label>
+				            <input type="radio" name="optionsRadios1" id="optionsRadios1" value="Musical" checked >
+				            Musical
+				          </label>
+				        </div>
+				        <div class="radio">
+				          <label>
+				            <input type="radio" name="optionsRadios1" id="optionsRadios2" value="Play">
+				            Play
+				          </label>
+				        </div>
+				      </div>
+				    </div>
+				    
                     <div class="form-group" style="margin: 5%;">
                       <div class="col-lg-10 col-lg-offset-2">
-                        <button type="submit" class="btn btn-primary">Add Event</button>
+                        <button type="submit" class="btn btn-primary">Update Event</button>
                       </div>
                     </div>
                 </fieldset>

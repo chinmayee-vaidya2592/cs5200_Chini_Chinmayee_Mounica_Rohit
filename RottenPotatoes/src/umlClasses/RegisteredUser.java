@@ -473,4 +473,41 @@ public class RegisteredUser extends User {
     	return name;
     }
     
+    /**
+	 * 
+	 * @param user_id user id whose genre is to be populated
+	 * @param genres all the genres
+	 * @param conn connection object to the database
+	 * @throws Exception
+	 */
+	public void updateGenres(int user_id, List<String> genres, Connection conn) throws Exception{
+		try {
+			for(String genre: genres){
+				PreparedStatement updateGenres = conn.prepareStatement("insert into UserGenre (user, genreType)"
+						+" values (? , ?)");
+				SQLWarning warnings;
+				warnings = updateGenres.getWarnings();
+				while(warnings!=null){
+					System.err.println("Database Warnings! "+warnings);
+				}
+				updateGenres.setInt(1, user_id);
+				updateGenres.setString(2, genre);
+				int updateCount = updateGenres.executeUpdate();
+				SQLWarning updateRev;
+				updateRev= updateGenres.getWarnings();
+				while(updateRev!=null){
+					System.err.println("Database Warnings! "+updateRev);
+				}
+				
+				if(updateCount!=1){
+					throw new Exception("No update");
+				}
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+    
 }

@@ -44,26 +44,27 @@
     	}
     	ArrayList<Ticket> ticketCreated = new ArrayList<Ticket>();
     	if (count > 0) {
-    		for (int i=1; i <= count; i++) {
-    			Ticket t = new Ticket();
-    		    Ticket created = t.createTicket(con, eventId, userId, showDate);
-    		    ticketCreated.add(created);
-    		}
-    		int ticketAvailable = event.updateAvailableTickets(count);
-    		StringBuilder sb = new StringBuilder("Ticket for " + Utils.getUserNameById(con, userId));
-        	for (Ticket tick : ticketCreated) {
-        		sb.append(": Ticket ID:" + tick.getTicketId() + ",");
-        	}
-        	out.println("<script type=\"text/javascript\">");
-			out.println("alert('"+ sb.toString() + "');");
-			out.println("location='Home.jsp?userId=" + userId + "';");
-			out.println("</script>");
-			if (ticketAvailable < count || ticketAvailable == 0) {
-				out.println("<script type=\"text/javascript\">");
+    		int ticketAvailable = event.updateAvailableTickets(count); 
+    		if (ticketAvailable > count) {
+    			for (int i=1; i <= count; i++) {
+    				Ticket t = new Ticket();
+    		    	Ticket created = t.createTicket(con, eventId, userId, showDate);
+    		    	ticketCreated.add(created);
+    			}
+    			StringBuilder sb = new StringBuilder("Ticket for " + Utils.getUserNameById(con, userId));
+            	for (Ticket tick : ticketCreated) {
+            		sb.append(": Ticket ID:" + tick.getTicketId() + ",");
+            	}
+            	out.println("<script type=\"text/javascript\">");
+    			out.println("alert('"+ sb.toString() + "');");
+    			out.println("location='Home.jsp?userId=" + userId + "';");
+    			out.println("</script>");
+    		} else {
+    			out.println("<script type=\"text/javascript\">");
 				out.println("alert('Insufficient number of tickets left!')");
-				out.println("location='Home.jsp';");
+				out.println("location='Home.jsp?userId=" + userId + "';");
 				out.println("</script>");
-			}
+    		}
     	} 
     	
     %>

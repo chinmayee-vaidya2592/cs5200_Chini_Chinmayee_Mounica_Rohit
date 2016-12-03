@@ -22,7 +22,7 @@
 			int userId = rs.getUserAuthentication(connection, username, password);
 			if (userId > 0 && userId != 1) {
 				response.sendRedirect("profile.jsp?userId="+userId); 
-			} else if (userId == 1 && username.equals("admin")) {
+			} else if (userId == 1 && username.equals("harry123")) {
 				response.sendRedirect("adminDashboard.jsp?userId="+userId);
 			} else {
 				out.println("<script type=\"text/javascript\">");

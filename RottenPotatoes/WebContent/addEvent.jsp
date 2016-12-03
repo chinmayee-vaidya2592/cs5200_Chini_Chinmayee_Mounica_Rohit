@@ -1,3 +1,5 @@
+<%@page import="utils.GetConnection"%>
+<%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -9,6 +11,11 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
+    
+    <%
+    	Connection conn = GetConnection.getConnection();
+    	
+    %>
 
     <title>RottenPotatoes</title>
 
@@ -61,13 +68,13 @@
                   <div class="form-group">
                     <label for="inputEventName" class="col-lg-2 control-label">Event Name</label>
                     <div class="col-lg-10">
-                      <input type="text" class="form-control" id="inputEvent Name" placeholder="First Name">
+                      <input type="text" class="form-control" id="inputEvent Name" placeholder="First Name" name="name">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputEventDescription" class="col-lg-2 control-label">Event Description</label>
                     <div class="col-lg-10">
-                      <textarea class="form-control" rows="3" id="inputEventDescription" placeholder="Event Description"></textarea>
+                      <textarea class="form-control" rows="3" id="inputEventDescription" placeholder="Event Description" name="desc"></textarea>
                       <span class="help-block">Enter a small synopsis of your event or give away the whole plot!</span>
                     </div>
                   </div>
@@ -110,7 +117,7 @@
                     <div class="form-group"> <!-- Date input -->
                       <label class="col-lg-2 col-md-2 col-sm-12 col-xs-12 control-label" for="date">Starting Date</label>
                       <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                      <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                      <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text" name="startDate"/>
                       </div>
                     </div>
                    <!-- Form code ends -->
@@ -118,14 +125,14 @@
                     <div class="form-group"> <!-- Date input -->
                       <label class="col-lg-2 col-md-2 col-sm-12 col-xs-12 control-label" for="date">Ending Date</label>
                       <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                      <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                      <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text" name="endDate"/>
                       </div>
                     </div>
                    <!-- Form code ends -->
                     <div class="input-group bootstrap-timepicker timepicker">
                         <label class="col-lg-3 col-md-2 col-sm-12 col-xs-12 control-label" for="date">Show Time</label>
                         <div class="col-lg-9 col-md-10 col-sm-12 col-xs-12">
-                          <input id="timepicker1" type="text" class="form-control input-small">
+                          <input id="timepicker1" type="text" class="form-control input-small" name="endDate">
                           <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                         </div>
                     </div>
