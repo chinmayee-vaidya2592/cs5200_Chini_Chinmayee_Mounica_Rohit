@@ -133,6 +133,23 @@
 			        </div>
                   </div>
                   <div class="form-group">
+				      <label class="col-lg-2 control-label">Are you a viewer or an artist?</label>
+				      <div class="col-lg-10">
+				        <div class="radio">
+				          <label>
+				            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+				            Artist
+				          </label>
+				        </div>
+				        <div class="radio">
+				          <label>
+				            <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+				            Viewer
+				          </label>
+				        </div>
+				      </div>
+				    </div>
+                  <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
                       <button type="submit" class="btn btn-primary">Sign In</button>
                     </div>
