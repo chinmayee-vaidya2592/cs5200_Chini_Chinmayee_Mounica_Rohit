@@ -72,13 +72,13 @@
             <div class="panel-body">
               <form class="form-horizontal">
                 <fieldset>
-                  <div class="form-group">
+<!--                   <div class="form-group">
                   	<div class="btn-group">
                   		<button type="button" class="btn btn-primary glyphicon glyphicon-plus" style="border-radius: 0 !important; color: #fff;">
                  			<a href="./addEvent.jsp" style="color: #fff;">Add Event</a>
                   		</button>
                   	</div>
-                  	</div>
+                  	</div> -->
                   	<div class="form-group">
                     <label for="inputFirstName" class="col-lg-2 control-label">First Name</label>
                     <div class="col-lg-10">
