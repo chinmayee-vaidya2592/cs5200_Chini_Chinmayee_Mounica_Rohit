@@ -56,7 +56,7 @@
         	}
         	out.println("<script type=\"text/javascript\">");
 			out.println("alert('"+ sb.toString() + "');");
-			out.println("location='Home.jsp';");
+			out.println("location='Home.jsp?userId=" + userId + "';");
 			out.println("</script>");
 			if (ticketAvailable < count || ticketAvailable == 0) {
 				out.println("<script type=\"text/javascript\">");

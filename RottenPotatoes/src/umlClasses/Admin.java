@@ -105,7 +105,7 @@ public class Admin extends RegisteredUser{
 	public void deleteUser(int id, Connection conn) throws Exception{
 		PreparedStatement deleteuser;
 		try {
-			deleteuser = conn.prepareStatement("delete from RegsiteredUser where id = ? ");
+			deleteuser = conn.prepareStatement("delete from RegisteredUser where id = ? ");
 			
 			SQLWarning warnings;
 			warnings = deleteuser.getWarnings();

@@ -29,6 +29,14 @@
 			out.println("</script>");
 		}
 	
+		if (request.getParameter("deleteEvent") != null) {
+			int eventId = Integer.parseInt(request.getParameter("deleteEvent"));
+		}
+		if (request.getParameter("deleteUser") != null) {
+			int userId = Integer.parseInt(request.getParameter("deleteUser"));
+			a.deleteUser(userId, con);
+			response.sendRedirect("adminDashboard.jsp?userId=2");
+		}
 	%>
 	
     <title>RottenPotatoes</title>
@@ -63,9 +71,8 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse pull-right">
           <ul class="nav navbar-nav">
-            <li class="active" style="color: #385185;"><a href="./index.jsp">Home</a></li>
-            <li><a href="./login.jsp" style="color: #385185;">Sign In</a></li>
-            <li><a href="./register.jsp" style="color: #385185;">Register</a></li>
+            <li class="active" style="color: #385185;"><a href="./Home.jsp?userId=2">Home</a></li>
+            <li><a href="./index.jsp" style="color: #385185;">Logout</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -85,7 +92,6 @@
 					</ul>
 			
 					<div id="myTabContent" class="tab-content">
-					<% for (RegisteredUser u : userList) { %>
 					  <div class="tab-pane fade active in" id="userList">
 					    <table class="table table-striped table-hover ">
 						  <thead>
@@ -96,6 +102,8 @@
 						    </tr>
 						  </thead>
 						  <tbody>
+						  <% for (RegisteredUser u : userList) { 
+						  %>
 						    <tr>
 						      <td><%= u.getusername() %></td>
 						      <td><%= u.getemail() %></td>
@@ -112,16 +120,17 @@
                     					<span class="glyphicon glyphicon-triangle-bottom"></span>			
                  					</a>
 									  <ul class="dropdown-menu">
-									    <li><a>Delete</a></li>
+									    <li><a href="adminDashboard.jsp?userId=2&deleteUser=<%=u.getId()%>">Delete</a></li>
 									    <li><a href="#">Cancel</a></li>
 									  </ul>	
 								</div>
 						      </td>
 						    </tr>
+						    <% } %>
 						  </tbody>
 						</table>
 					  </div>
-					  <% } %>
+					  
 					 
 					  <div class="tab-pane fade" id="eventList">
 					    <table class="table table-striped table-hover ">
@@ -154,7 +163,7 @@
                     					<span class="glyphicon glyphicon-triangle-bottom"></span>			
                  					</a>
 									  <ul class="dropdown-menu">
-									    <li><a href="#">Delete</a></li>
+									    <li><a href="adminDashboard.jsp?userId=2&deleteEvent=<%=e.getId()%>">Delete</a></li>
 									    <li><a href="#">Cancel</a></li>
 									  </ul>	
 								</div>
