@@ -38,9 +38,6 @@ create table `Ticket` (
 
 create table Admin(
 id int primary key,
-password varchar(200) not null,
-email varchar(200) not null,
-unique(email),
 foreign key(id)
 	references `User`(id)
     on update cascade 
@@ -130,12 +127,7 @@ create table UserGenre(
 
 create table Artists(
 id int primary key,
-username varchar(200) not null,
-email varchar(200) not null,
-password varchar(200) not null,
 type enum('Director', 'Actor','Musician'),
-unique(username),
-unique(email),
 foreign key(id)
 	references RegisteredUser(id)
     on update cascade 
