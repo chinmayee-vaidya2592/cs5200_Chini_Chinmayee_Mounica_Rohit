@@ -136,6 +136,31 @@
                           <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                         </div>
                     </div>
+                    <div class="form-group">
+                    	<div class="row">
+                    	<label for="inputEventCost" class="col-lg-2 col-md-2 control-label">Event Cost</label>
+                    	<div class="col-lg-10 col-md-10">
+                    			<input type="text" class="form-control col-lg-10 col-md-10" id="inputEventCost" placeholder="$0.00">
+                    	</div>
+                  	</div>
+                  </div>
+                  <div class="form-group">
+				      <label class="col-lg-2 control-label">Event Type</label>
+				      <div class="col-lg-10">
+				        <div class="radio">
+				          <label>
+				            <input type="radio" name="Musical" id="optionsRadios1" value="option1" checked="">
+				            Musical
+				          </label>
+				        </div>
+				        <div class="radio">
+				          <label>
+				            <input type="radio" name="Play" id="optionsRadios2" value="option2">
+				            Play
+				          </label>
+				        </div>
+				      </div>
+				    </div>
                     <div class="form-group" style="margin: 5%;">
                       <div class="col-lg-10 col-lg-offset-2">
                         <button type="submit" class="btn btn-primary">Add Event</button>

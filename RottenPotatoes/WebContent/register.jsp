@@ -1,3 +1,8 @@
+<%@page import="utils.Utils"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="umlClasses.Admin"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="utils.GetConnection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -21,7 +26,6 @@
 			String userName = request.getParameter("userName");
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
-			
 		}
 	%>
 	
@@ -128,6 +132,23 @@
 			          </label>
 			        </div>
                   </div>
+                  <div class="form-group">
+				      <label class="col-lg-2 control-label">Are you a viewer or an artist?</label>
+				      <div class="col-lg-10">
+				        <div class="radio">
+				          <label>
+				            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+				            Artist
+				          </label>
+				        </div>
+				        <div class="radio">
+				          <label>
+				            <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+				            Viewer
+				          </label>
+				        </div>
+				      </div>
+				    </div>
                   <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
                       <button type="submit" class="btn btn-primary">Sign In</button>

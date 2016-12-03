@@ -76,8 +76,6 @@
                 <div class="panel-heading" style="background-color: #DA4339;">
                   <div class="row">
                     <h3 class="panel-title col-lg-10 col-md-10 col-sm-12 col-xs-12"><a href='eventPage.jsp?eventId=<%=e.getId()%>'><%=e.getName()%></a></h3>
-                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                   </div>
                 </div>
                 <div class="panel-body">
