@@ -28,14 +28,16 @@
 			out.println("location='adminDashboard.jsp';");
 			out.println("</script>");
 		}
-	
+		
 		if (request.getParameter("deleteEvent") != null) {
 			int eventId = Integer.parseInt(request.getParameter("deleteEvent"));
+			a.deleteOneEvent(eventId, con);
+			response.sendRedirect("adminDashboard.jsp?userId=1");
 		}
 		if (request.getParameter("deleteUser") != null) {
-			int userId = Integer.parseInt(request.getParameter("deleteUser"));
-			a.deleteUser(userId, con);
-			response.sendRedirect("adminDashboard.jsp?userId=2");
+			int delUserId = Integer.parseInt(request.getParameter("deleteUser"));
+			a.deleteUser(delUserId, con);
+			response.sendRedirect("adminDashboard.jsp?userId=1");
 		}
 	%>
 	
@@ -71,7 +73,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse pull-right">
           <ul class="nav navbar-nav">
-            <li class="active" style="color: #385185;"><a href="./Home.jsp?userId=2">Home</a></li>
+            <li class="active" style="color: #385185;"><a href="./Home.jsp?userId=1">Home</a></li>
             <li><a href="./index.jsp" style="color: #385185;">Logout</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -120,7 +122,7 @@
                     					<span class="glyphicon glyphicon-triangle-bottom"></span>			
                  					</a>
 									  <ul class="dropdown-menu">
-									    <li><a href="adminDashboard.jsp?userId=2&deleteUser=<%=u.getId()%>">Delete</a></li>
+									    <li><a href="adminDashboard.jsp?userId=1&deleteUser=<%=u.getId()%>">Delete</a></li>
 									    <li><a href="#">Cancel</a></li>
 									  </ul>	
 								</div>
@@ -152,7 +154,7 @@
 						      <td><%=e.getDescription()%></td>
 						      <td>
 						      	<div class="btn-group">
-						      		<a href="editEvent.jsp?eventId=<%= e.getId() %>" >
+						      		<a href="editEvent.jsp?eventId=<%=e.getId() %>" >
 						      			<span class="btn btn-warning glyphicon glyphicon-pencil"></span>
 						      		</a>
 						      	</div>
@@ -163,7 +165,7 @@
                     					<span class="glyphicon glyphicon-triangle-bottom"></span>			
                  					</a>
 									  <ul class="dropdown-menu">
-									    <li><a href="adminDashboard.jsp?userId=2&deleteEvent=<%=e.getId()%>">Delete</a></li>
+									    <li><a href="adminDashboard.jsp?userId=1&deleteEvent=<%=e.getId()%>">Delete</a></li>
 									    <li><a href="#">Cancel</a></li>
 									  </ul>	
 								</div>

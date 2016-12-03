@@ -276,4 +276,30 @@ public class Admin extends RegisteredUser{
 		}
 		return events;
 	}
+	
+	public void deleteOneEvent(int event_id, Connection conn) throws Exception{
+		PreparedStatement deleteEvent;
+		try {
+			deleteEvent = conn.prepareStatement("delete from Event where id = ?");
+			SQLWarning warnings;
+			warnings = deleteEvent.getWarnings();
+			while(warnings!=null){
+				System.err.println("Database Warnings! "+warnings);
+			}
+			deleteEvent.setInt(1, event_id);
+			int deleteCount = deleteEvent.executeUpdate();
+			SQLWarning delWar;
+			delWar = deleteEvent.getWarnings();
+			while(delWar!=null){
+				System.err.println("Database Warnings! "+delWar);
+			}
+			
+			if(deleteCount!=1){
+				throw new Exception("No event with that id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }

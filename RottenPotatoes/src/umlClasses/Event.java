@@ -200,7 +200,7 @@ public class Event {
 		ArrayList<Event> eventListUser = new ArrayList<Event>();
 		PreparedStatement getEvent = con.prepareStatement("select e.id, e.name, e.description, e.calculatedRating, e.type, e.genreType "
 				+ "from Event e where e.genreType in "
-				+ "(select ug.genre from UserGenre ug where ug.user = ?)");
+				+ "(select ug.genreType from UserGenre ug where ug.user = ?)");
 		Utils.printDatabaseWarning(getEvent.getWarnings());
 		try {
 			getEvent.setInt(1, userId);
@@ -285,15 +285,11 @@ public class Event {
 	public ArrayList<Event> getEventListByRating(Connection con) throws Exception {
 		ArrayList<Event> eventList = new ArrayList<Event>();
 		PreparedStatement getEvents = con.prepareStatement("select e.id, e.name, e.description, e.calculatedRating, e.type, "
-				+ "e.genreType from Event e where e.calculatedRating > 4.5 order by e.genreType");
+				+ "e.genreType from Event e where e.calculatedRating > 3 order by e.genreType");
 		Utils.printDatabaseWarning(getEvents.getWarnings());
 		try {
 			ResultSet rsEvent = getEvents.executeQuery();
 			Utils.printQueryWarning(getEvents.getWarnings());
-			if (!rsEvent.next()) {
-				throw new Exception("No events exist");
-			} else {
-				rsEvent.beforeFirst();
 				while(rsEvent.next()) {
 					Event e = new Event();
 					e.setId(rsEvent.getInt(1));
@@ -303,7 +299,6 @@ public class Event {
 					e.setType(EventType.valueOf(rsEvent.getString(5)));
 					e.setGenreType(GenreType.valueOf(rsEvent.getString(6)));
 					eventList.add(e);
-				}
 			}
 		} finally {
 			getEvents.close();

@@ -34,7 +34,8 @@ insert into event values (2, 'Aladdin', 'Carpe diem, this book and play is good'
 insert into event values (3, 'The Omen', 'It is really scary', 3.8, '2016-12-02', '2016-12-31', '9.30am', 'Play', 20, 35, 'Horror');
 UPDATE event set type = 'Musical' where id = 2;
 UPDATE event set endDate = '2016-12-13' where id = 1;
-select id, name, description, type, genreType from event 
+select id, name, description, type, genreType from event ;
+select * from event;
 order by genreType;
 select * from Ticket;
 delete from Ticket;
@@ -191,10 +192,11 @@ create table `RegisteredUser`(
 -- private Connection conn;
 
 
-
+insert into User values (3);
 select id from RegisteredUser where username = 'rohit' and password = 'rohit';
 
 insert into RegisteredUser values (1, 'rohit', 'rohit', 'rohit@rohit.com', 'Rohit', 'Dumb', 1);
+insert into RegisteredUser values (3, 'chini', 'chini', 'chini@chini.com', 'Chini', 'Chini', 3);
 
 #UserGenre
 create table UserGenre(

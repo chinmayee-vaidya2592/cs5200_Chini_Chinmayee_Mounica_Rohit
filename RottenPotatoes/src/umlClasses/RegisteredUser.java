@@ -255,7 +255,7 @@ public class RegisteredUser extends User {
         ("select id,username,password,email,hasAccess,firstName,lastName "
                 + "from  RegisteredUser where username = ? and password = ?");
         PreparedStatement getGenres = conn.prepareStatement
-                ("select u.genre from UserGenre u, RegisteredUser r where u.user = r.id and r.username = ?"
+                ("select u.genreType from UserGenre u, RegisteredUser r where u.user = r.id and r.username = ?"
                         + "and r.password = ?");
         PreparedStatement getcomments = conn.prepareStatement
         ("select c.commentText, c.commentTime from Comment c, UserComment u where c.id = u.comment and u.commentedOnBy = ?");
