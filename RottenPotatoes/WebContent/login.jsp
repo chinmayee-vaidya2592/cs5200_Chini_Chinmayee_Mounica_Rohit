@@ -20,8 +20,10 @@
 			String password = request.getParameter("password");
 			RegisteredUser rs = new RegisteredUser();
 			int userId = rs.getUserAuthentication(connection, username, password);
-			if (userId > 0) {
+			if (userId > 0 && userId != 2) {
 				response.sendRedirect("profile.jsp?userId="+userId); 
+			} else if (userId == 2 && username.equals("admin")) {
+				response.sendRedirect("adminDashboard.jsp?userId="+userId);
 			} else {
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('User does not exist or incorrect password. Kindly verify!');");

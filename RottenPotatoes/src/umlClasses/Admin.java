@@ -8,6 +8,8 @@ import java.sql.SQLWarning;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.Utils;
+
 
 /**
  * 
@@ -256,15 +258,11 @@ public class Admin extends RegisteredUser{
 		return users;
 	}
 	
-	public ArrayList<Event> getAllEvents(Connection conn){
+	public ArrayList<Event> getAllEvents(Connection conn) throws Exception{
 		ArrayList<Event> events = new ArrayList<Event>();
+		PreparedStatement ps = conn.prepareStatement("select * from Event");
+		Utils.printDatabaseWarning(ps.getWarnings());
 		try {
-			PreparedStatement ps = conn.prepareStatement("select * from Event");
-			SQLWarning warnings;
-			warnings =ps.getWarnings();
-			while(warnings!=null){
-				System.err.println("Database Warnings! "+warnings);	
-		} 
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				Event e = new Event();
@@ -273,8 +271,8 @@ public class Admin extends RegisteredUser{
 				e.setDescription(rs.getString(3));
 				events.add(e);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} finally {
+			ps.close();
 		}
 		return events;
 	}

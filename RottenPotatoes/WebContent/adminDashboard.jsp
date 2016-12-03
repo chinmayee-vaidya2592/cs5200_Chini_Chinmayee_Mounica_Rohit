@@ -122,7 +122,7 @@
 						</table>
 					  </div>
 					  <% } %>
-					  <% for (Event e : eventList) { %>
+					 
 					  <div class="tab-pane fade" id="eventList">
 					    <table class="table table-striped table-hover ">
 						  <thead>
@@ -134,6 +134,7 @@
 						    </tr>
 						  </thead>
 						  <tbody>
+						   <% for (Event e : eventList) { %>
 						    <tr>
 						      <td>
 						      	<a href='eventPage.jsp?eventId=<%= e.getId() %>'><%= e.getId() %></a>
@@ -159,10 +160,11 @@
 								</div>
 						      </td>
 						    </tr>
+						     <% } %>
 						  </tbody>
 						</table>
 					  </div>
-					  <% } %>
+					 
 					</div>
 				</div>
 			</div>
