@@ -180,9 +180,10 @@ public class RegisteredUser extends User {
     	RegisteredUser r = null;
         this.conn = con;
         PreparedStatement checkUser = conn.prepareStatement
-        ("select username, email from RegisteredUser where username =? or email = ?");
+        ("select username, email from RegisteredUser where username = ? or email = ?");
+        PreparedStatement createU = conn.prepareStatement("insert into User values(?)");
         PreparedStatement createUser = conn.prepareStatement
-        ("insert into RegisteredUser(id,username,password,email,firstName,lastName,hasAccess) values(?,?,?,?,?,?)");
+        ("insert into RegisteredUser values (?,?,?,?,?,?,?)");
         SQLWarning warning = checkUser.getWarnings();
         while(warning != null){
             System.out.println("Database warning: "+warning);
@@ -191,21 +192,40 @@ public class RegisteredUser extends User {
         while(warning1 != null){
             System.out.println("Database warning: "+warning1);
         }
+        SQLWarning warning2 = createU.getWarnings();
+        while(warning2 != null){
+            System.out.println("Database warning: "+warning1);
+        }
         try{
+        	checkUser.setString(1, username);
+        	checkUser.setString(2, email);
             ResultSet rs = checkUser.executeQuery();
+            Utils.printQueryWarning(checkUser.getWarnings());
             if(rs.next()){
                 throw new Exception("User exists with the same username or email");
-            }else{
+            } else {
              int userid = getNewUserId(con);
+             System.out.println("User ID: " + userid);
              r = new RegisteredUser();  
+             createU.setInt(1, userid);
+             int insertCount1 = createU.executeUpdate();
+             Utils.printInsertWarning(createU.getWarnings());
+             if (insertCount1 != 1) {
+            	 throw new Exception("No new user inserted");
+             }
+             createUser.setInt(1,userid);
              createUser.setString(2,username);
              createUser.setString(3, password);
              createUser.setString(4,email);
              createUser.setString(5,firstname);
              createUser.setString(6,lastname);
              createUser.setBoolean(7, true);
-             createUser.executeUpdate();
              
+             int insertCount = createUser.executeUpdate();
+             Utils.printInsertWarning(createUser.getWarnings());
+             if (insertCount != 1) {
+            	 throw new Exception("No new user inserted");
+             }
              r.setid(userid);
              r.setusername(username);
              r.setPassword(password);
@@ -388,7 +408,7 @@ public class RegisteredUser extends User {
     	RegisteredUser r = null;
 		try {
 			this.conn = con;
-			PreparedStatement updateuser = conn.prepareStatement("Update RegisteredUser set username = ? "
+			PreparedStatement updateuser = conn.prepareStatement("Update RegisteredUser set username = ?, "
 					+" password = ? , email= ? , firstName=? , lastName = ?  "
 					+"  where id = ? ");
 			

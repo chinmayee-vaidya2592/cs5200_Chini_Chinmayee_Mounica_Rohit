@@ -208,7 +208,7 @@ public class Event {
 			ps.setString(3, description);
 			ps.setDouble(4, calculatedRating);
 			ps.setDate(5, (java.sql.Date) startDate);
-			ps.setDate(6, (java.sql.Date) startDate);
+			ps.setDate(6, (java.sql.Date) endDate);
 			ps.setString(7, showTime);
 			ps.setString(8, type.toString());
 			ps.setInt(9, availableTickets);

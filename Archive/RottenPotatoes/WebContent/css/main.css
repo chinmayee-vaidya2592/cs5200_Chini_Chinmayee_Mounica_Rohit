@@ -1,0 +1,60 @@
+html,
+      body {
+        height: 100%;
+        /* The html and body elements cannot have any padding or margin. */
+      }
+
+      /* Wrapper for page content to push down footer */
+      #wrap {
+        min-height: 100%;
+        height: auto !important;
+        height: 100%;
+        /* Negative indent footer by it's height */
+        margin: 0 auto -60px;
+      }
+
+      /* Set the fixed height of the footer here */
+      #push,
+      #footer {
+        height: 60px;
+      }
+      #footer {
+        background-color: #f5f5f5;
+      }
+
+      /* Lastly, apply responsive CSS fixes as necessary */
+      @media (max-width: 767px) {
+        #footer {
+          margin-left: -20px;
+          margin-right: -20px;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
+
+.center_div{
+	margin: 0 auto;
+	width: 50%;
+	margin-top: 10%;
+}
+
+.rating-badge {
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 7px;
+  font-weight: normal;
+  color: #ffffff;
+  line-height: 1;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-align: center;
+  background-color: #bbbbbb;
+  border-radius: 10px;
+}
+
+a.rating-badge:hover,
+a.rating-badge:focus {
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+}
