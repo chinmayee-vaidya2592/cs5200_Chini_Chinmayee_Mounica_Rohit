@@ -4,8 +4,11 @@ import utils.*;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class User {
 	private int id;
@@ -37,17 +40,11 @@ public abstract class User {
 			deleteComment.setInt(1, eventId);
 			deleteComment.setInt(2, this.getId());
 			deleteComment.setInt(3, commentId);
-			int deleteCount1 = deleteComment.executeUpdate();
+			deleteComment.executeUpdate();
 			Utils.printDeleteWarning(deleteComment.getWarnings());
-			if (deleteCount1 != 1) {
-				throw new Exception("No records to be deleted!");
-			}
 			deleteCommentText.setInt(1, commentId);
-			int deleteCount2 = deleteComment.executeUpdate();
+			deleteComment.executeUpdate();
 			Utils.printDeleteWarning(deleteComment.getWarnings());
-			if (deleteCount2 != 1) {
-				throw new Exception("No records to be deleted!");
-			}
 		} finally {
 			deleteComment.close();
 			deleteCommentText.close();
@@ -116,17 +113,11 @@ public abstract class User {
 			deleteComment.setInt(1, eventId);
 			deleteComment.setInt(2, this.getId());
 			deleteComment.setInt(3, reviewId);
-			int deleteCount1 = deleteComment.executeUpdate();
+			deleteComment.executeUpdate();
 			Utils.printDeleteWarning(deleteComment.getWarnings());
-			if (deleteCount1 != 1) {
-				throw new Exception("No records to be deleted!");
-			}
 			deleteCommentText.setInt(1, reviewId);
-			int deleteCount2 = deleteComment.executeUpdate();
+			deleteComment.executeUpdate();
 			Utils.printDeleteWarning(deleteComment.getWarnings());
-			if (deleteCount2 != 1) {
-				throw new Exception("No records to be deleted!");
-			}
 		} finally {
 			deleteComment.close();
 			deleteCommentText.close();
@@ -199,6 +190,42 @@ public abstract class User {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Map<Comments, Integer> getCommentsForUser(Connection conn, int userId) throws Exception {
+		Map<Comments, Integer> commentList = new HashMap<Comments, Integer>();
+		PreparedStatement getCommentIds = conn.prepareStatement("select comment, commentOn from"
+				+ " UserComment where commentedOnBy = ?");
+		Utils.printDatabaseWarning(getCommentIds.getWarnings());
+		try {
+			getCommentIds.setInt(1, userId);
+			ResultSet comment = getCommentIds.executeQuery();
+			while (comment.next()) {
+				Comments com = new Comments(conn, comment.getInt(1), userId);
+				commentList.put(com, comment.getInt(2));
+			}
+		} finally {
+			getCommentIds.close();
+		}
+		return commentList;
+	}
+	
+	public Map<Reviews, Integer> getReviewsForUser(Connection conn, int userId) throws Exception {
+		Map<Reviews, Integer> reviewList = new HashMap<Reviews, Integer>();
+		PreparedStatement getReviewIds = conn.prepareStatement("select reviewId, reviews from"
+				+ " UserReview where reviewedBy = ?");
+		Utils.printDatabaseWarning(getReviewIds.getWarnings());
+		try {
+			getReviewIds.setInt(1, userId);
+			ResultSet review = getReviewIds.executeQuery();
+			while (review.next()) {
+				Reviews rev = new Reviews(conn, review.getInt(1), userId);
+				reviewList.put(rev, review.getInt(2));
+			}
+		} finally {
+			getReviewIds.close();
+		}
+		return reviewList;
 	}
 	
 }

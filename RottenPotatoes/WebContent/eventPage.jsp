@@ -122,11 +122,12 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse pull-right">
           <ul class="nav navbar-nav">
+            <% if (userId <= 0) { %>
             <li class="active" style="color: #385185;"><a href="./index.jsp">Home</a></li>
-            <% if (!(userId > 0)) { %>
             <li><a href="./login.jsp" style="color: #385185;">Sign In</a></li>
             <li><a href="./register.jsp" style="color: #385185;">Register</a></li>
             <% } else { %>
+            <li class="active" style="color: #385185;"><a href="./Home.jsp?userId=<%=userId%>">Home</a></li>
             <li><a href="./profile.jsp?userId=<%=userId%>" style="color: #385185;">Profile</a></li>
             <li><a href="./addEvent.jsp" style="color: #385185;">Add Event</a></li>
             <li><a href="./index.jsp" style="color: #385185;">Logout</a></li>

@@ -4,12 +4,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Map.Entry;
 
+import umlClasses.Comments;
 import umlClasses.Event;
 import umlClasses.EventType;
 import umlClasses.GenreType;
 import umlClasses.RegisteredUser;
+import umlClasses.Reviews;
+import umlClasses.User;
 
 public class Demo {
 	
@@ -91,6 +96,94 @@ public class Demo {
 		System.out.println("User modified: " + updatedUser.getusername());
 	}
 
+	public void deleteUserComment(Connection conn, Scanner scanner) throws Exception {
+		scanner.nextLine();
+		System.out.println("Delete a user comment: ");
+		System.out.println("Enter User Id to view the comments: ");
+		int userId = scanner.nextInt();
+		User user = new RegisteredUser(conn, userId);
+		Map<Comments, Integer> commentList = user.getCommentsForUser(conn, userId);
+		System.out.println("Comments for this user with Event ID: ");
+		for (Entry<Comments, Integer> entry : commentList.entrySet()) {
+			System.out.println("Comment ID:" + entry.getKey().getId());
+			System.out.println("Comment Text:" + entry.getKey().getCommentText());
+			System.out.println("Event ID : " + entry.getValue());
+		}
+		System.out.println("Enter the comment ID you want to delete: ");
+		int commentId = scanner.nextInt();
+		System.out.println("Enter the event ID associated with the comment: ");
+		int eventId = scanner.nextInt();
+		user.deleteUserComment(conn, commentId, eventId);
+		System.out.println("User Comment deleted");
+	}
+	
+	public void deleteUserReview(Connection conn, Scanner scanner) throws Exception {
+		scanner.nextLine();
+		System.out.println("Delete a user Review: ");
+		System.out.println("Enter User Id to view the Reviews: ");
+		int userId = scanner.nextInt();
+		User user = new RegisteredUser(conn, userId);
+		Map<Reviews, Integer> reviewList = user.getReviewsForUser(conn, userId);
+		System.out.println("Comments for this user with Event ID: ");
+		for (Entry<Reviews, Integer> entry : reviewList.entrySet()) {
+			System.out.println("Review ID:" + entry.getKey().getId());
+			System.out.println("Review Text:" + entry.getKey().getDescription());
+			System.out.println("Review Rating:" + entry.getKey().getRating());
+			System.out.println("Event ID : " + entry.getValue());
+		}
+		System.out.println("Enter the review ID you want to delete: ");
+		int reviewId = scanner.nextInt();
+		System.out.println("Enter the event ID associated with the review: ");
+		int eventId = scanner.nextInt();
+		user.deleteUserReview(conn, eventId, reviewId);
+		System.out.println("User Review deleted");
+	}
+	
+	public void modifyUserComment(Connection conn, Scanner scanner) throws Exception {
+		scanner.nextLine();
+		System.out.println("Modify a user comment: ");
+		System.out.println("Enter User Id to view the comments: ");
+		int userId = scanner.nextInt();
+		User user = new RegisteredUser(conn, userId);
+		Map<Comments, Integer> commentList = user.getCommentsForUser(conn, userId);
+		System.out.println("Comments for this user with Event ID: ");
+		for (Entry<Comments, Integer> entry : commentList.entrySet()) {
+			System.out.println("Comment ID:" + entry.getKey().getId());
+			System.out.println("Comment Text:" + entry.getKey().getCommentText());
+			System.out.println("Event ID : " + entry.getValue());
+		}
+		System.out.println("Enter the Comment ID you want to update: ");
+		int commentId = scanner.nextInt();
+		System.out.println("Enter the new changed comment: ");
+		scanner.nextLine();
+		String commentText = scanner.nextLine();
+		user.updateUserComment(conn, commentId, commentText);
+		System.out.println("The comment has been updated! ");
+	}
+	
+	public void modifyUserReview(Connection conn, Scanner scanner) throws Exception {
+		scanner.nextLine();
+		System.out.println("Modify a user Review: ");
+		System.out.println("Enter User Id to view the Reviews: ");
+		int userId = scanner.nextInt();
+		User user = new RegisteredUser(conn, userId);
+		Map<Reviews, Integer> reviewList = user.getReviewsForUser(conn, userId);
+		System.out.println("Reviews for this user with Event ID: ");
+		for (Entry<Reviews, Integer> entry : reviewList.entrySet()) {
+			System.out.println("Review ID:" + entry.getKey().getId());
+			System.out.println("Review Text:" + entry.getKey().getDescription());
+			System.out.println("Review Rating:" + entry.getKey().getRating());
+			System.out.println("Event ID : " + entry.getValue());
+		}
+		System.out.println("Enter the review ID you want to update: ");
+		int reviewId = scanner.nextInt();
+		System.out.println("Enter the new changed review: ");
+		scanner.nextLine();
+		String reviewText = scanner.nextLine();
+		user.updateUserReview(reviewId, conn, reviewText);
+		System.out.println("The review description has been updated! ");
+	}
+	
 	public static void main(String[] args) throws Exception {
 		DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
 		Scanner scanner = new Scanner(System.in);
@@ -103,6 +196,10 @@ public class Demo {
 		System.out.println("1. Add an Event");
 		System.out.println("2. Add a user");
 		System.out.println("3. Modify a user");
+		System.out.println("4. Delete a user Comment");
+		System.out.println("5. Modify a user Comment");
+		System.out.println("6. Delete a user Review");
+		System.out.println("7. Modify a user Review");
 		System.out.println("Enter choice here:");
 		int choice = scanner.nextInt();
 		switch (choice) {
@@ -114,6 +211,18 @@ public class Demo {
 				break;
 			case 3:
 				demo.modifyRegisteredUser(connection, scanner);
+				break;
+			case 4:
+				demo.deleteUserComment(connection, scanner);
+				break;
+			case 5:
+				demo.modifyUserComment(connection, scanner);
+				break;
+			case 6:
+				demo.deleteUserReview(connection, scanner);
+				break;
+			case 7:
+				demo.modifyUserReview(connection, scanner);
 				break;
 		}
 		scanner.close();

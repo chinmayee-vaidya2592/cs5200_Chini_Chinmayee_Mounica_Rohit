@@ -286,20 +286,16 @@ public class Event {
 			getEvent.setInt(1, userId);
 			ResultSet rs = getEvent.executeQuery();
 			Utils.printQueryWarning(getEvent.getWarnings());
-			if (!rs.next()) {
-				throw new Exception("No events exist");
-			} else {
-				rs.beforeFirst();
-				while(rs.next()) {
-					Event eve = new Event();
-					eve.setId(rs.getInt(1));
-					eve.setName(rs.getString(2));
-					eve.setDescription(rs.getString(3));
-					eve.setCalculatedRating(rs.getDouble(4));
-					eve.setType(EventType.valueOf(rs.getString(5)));
-					eve.setGenreType(GenreType.valueOf(rs.getString(6)));
-					eventListUser.add(eve);
-				}
+			
+			while(rs.next()) {
+				Event eve = new Event();
+				eve.setId(rs.getInt(1));
+				eve.setName(rs.getString(2));
+				eve.setDescription(rs.getString(3));
+				eve.setCalculatedRating(rs.getDouble(4));
+				eve.setType(EventType.valueOf(rs.getString(5)));
+				eve.setGenreType(GenreType.valueOf(rs.getString(6)));
+				eventListUser.add(eve);
 			}
 		} finally {
 			getEvent.close();
